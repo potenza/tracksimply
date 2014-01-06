@@ -37,12 +37,12 @@
 
 <div class="well well-sm">
   <label>For Google Adwords:</label>
-  <input type="text" class="form-control" value="http://www.tracksimply.com/r/<%= @tracking_link.token %>?kw={keyword}">
+  <input type="text" class="form-control" value="<%= ENV['HTTP_HOST'] %>/r/<%= @tracking_link.token %>?kw={keyword}">
 </div>
 
 <div class="well well-sm">
   <label>All other Ad Networks and Websites:</label>
-  <input type="text" class="form-control" value="http://www.tracksimply.com/r/<%= @tracking_link.token %>">
+  <input type="text" class="form-control" value="<%= ENV['HTTP_HOST'] %>/r/<%= @tracking_link.token %>">
 </div>
 
 <%= back site_tracking_links_path(@site) %>

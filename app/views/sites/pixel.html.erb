@@ -18,7 +18,7 @@
   <p>Then, copy and paste the following code into the &lt;body&gt; of your conversion or success page.<p>
 
   <div class="well well-sm">
-    &lt;img src="http://www.tracksimply.com/track/conversions?revenue=<span>4.99</span>" width="1" height="1"&gt;
+    &lt;img src="<%= ENV['HTTP_HOST'] %>/track/conversions?revenue=<span>4.99</span>" width="1" height="1"&gt;
   </div>
 </div>
 
