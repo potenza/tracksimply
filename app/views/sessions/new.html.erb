@@ -1,0 +1,29 @@
+<%= page_title "Log In" %>
+
+<%= form_tag session_path, id: "new_session" do %>
+  <% if @error %>
+    <div class="alert alert-danger">
+      Invalid email and or password combination.
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <%= email_field_tag :email, params[:email], autofocus: true, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label" for="password">Password</label>
+    <%= password_field_tag :password, params[:password], class: "form-control" %>
+  </div>
+
+  <div class="form-group remember-me">
+    <div class="checkbox">
+      <label>
+        <%= check_box_tag :remember_me, 1, params[:remember_me] %> Keep me logged in
+      </label>
+    </div>
+  </div>
+
+  <input type="submit" value="Log In" class="btn btn-primary" data-disable-with="Logging In...">
+<% end %>

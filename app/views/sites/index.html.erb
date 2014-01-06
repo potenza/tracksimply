@@ -1,0 +1,19 @@
+<%= title "Sites" %>
+
+<%= breadcrumbs "Sites" %>
+
+<% if @sites.empty?%>
+  <div class="alert alert-warning">No sites found.</div>
+<% else %>
+  <table class="table table-bordered">
+    <% @sites.each do |site| %>
+      <tr>
+        <td>
+          <%= gicon "stats" %> <%= link_to site, site %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<%= link_to "Add a Site", new_site_path, class: "btn btn-primary" if current_user.admin? %>

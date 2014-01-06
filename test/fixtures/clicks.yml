@@ -1,0 +1,7 @@
+one:
+  site: one
+  visitor: one
+  tracking_link: one
+  details:
+    referrer: http://www.google.com
+    ip_address: 127.0.0.1

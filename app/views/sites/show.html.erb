@@ -1,0 +1,51 @@
+<%= title @site %>
+
+<%= breadcrumbs sites_path, @site %>
+
+<h4>Recent Visits</h4>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Click ID</th>
+      <th>Visitor ID</th>
+      <th>Tracking Link</th>
+      <th>IP Address</th>
+      <th>Referrer</th>
+      <th>Cost</th>
+      <th>Revenue</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @clicks.each do |click| %>
+      <tr>
+        <td><%= click.id %></td>
+        <td><%= click.visitor_id %></td>
+        <td>
+          <%= gicon "link" %>
+          <% if current_user.admin? %>
+            <%= link_to click.tracking_link.token, [@site, click.tracking_link] %>
+          <% else %>
+            <%= click.tracking_link %>
+          <% end %>
+        </td>
+        <td><%= click.details["ip_address"] %></td>
+        <td><%= click.details["referrer"] %></td>
+        <td><%= number_to_currency click.tracking_link.cost %></td>
+        <td><%= number_to_currency click.conversion.try(:revenue) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% if current_user.admin? %>
+  <div class="row">
+    <div class="col-md-6">
+      <%= link_to gicon("link", "Tracking Links"), site_tracking_links_path(@site), class: "btn btn-default" %>
+      <%= link_to gicon("star", "Conversion Code"), pixel_site_path(@site), class: "btn btn-default" %>
+    </div>
+    <div class="col-md-6 txtr">
+      <%= link_to gicon("pencil", "Edit Site"), edit_site_path(@site), class: "btn btn-default" %>
+      <%= link_to gicon("trash", "Delete Site"), site_path(@site), method: :delete, data: { confirm: "Are you sure you want to delete this site?" }, class: "btn btn-danger" %>
+    </div>
+  </div>
+<% end %>

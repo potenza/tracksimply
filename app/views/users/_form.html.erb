@@ -1,0 +1,21 @@
+<%= bootstrap_form_for user, style: :horizontal, left: "col-md-2", right: "col-md-5" do |f| %>
+  <%= f.alert_message "Please fix the errors below" %>
+
+  <%= f.select :admin, [["No", :false], ["Yes", :true]] %>
+  <%= f.text_field :first_name %>
+  <%= f.text_field :last_name %>
+  <%= f.text_field :email %>
+  <% if user.persisted? %>
+    <%= f.form_group do %>
+      <div class="alert alert-info user-alert">
+        Leave the password blank if you don't wish to change it.
+      </div>
+    <% end %>
+  <% end %>
+  <%= f.password_field :password %>
+  <%= f.password_field :password_confirmation %>
+  <%= f.form_group do %>
+    <%= f.primary %>
+    <%= link_to "Cancel", users_path, class: "btn btn-default" %>
+  <% end %>
+<% end %>

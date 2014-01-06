@@ -1,0 +1,9 @@
+one:
+  site: one
+  landing_page_url: www.my-website.com
+  campaign: My Campaign
+  source: My Source
+  medium: My Medium
+  ad_content: My Ad Content
+  token: 053c8581
+  sid: my-sid

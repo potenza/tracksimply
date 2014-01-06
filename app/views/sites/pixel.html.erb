@@ -1,0 +1,25 @@
+<%= title "#@site Conversion Code" %>
+
+<%= breadcrumbs sites_path, @site, "Conversion Code" %>
+
+<div class="site-conversion-code">
+  <p>First, enter the amount of revenue you expect from a conversion:
+  <div class="row">
+    <div class="col-md-2">
+      <form>
+        <div class="input-group">
+          <span class="input-group-addon">$</span>
+          <input class="form-control" type="text" value="4.99">
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <p>Then, copy and paste the following code into the &lt;body&gt; of your conversion or success page.<p>
+
+  <div class="well well-sm">
+    &lt;img src="http://www.tracksimply.com/track/conversions?revenue=<span>4.99</span>" width="1" height="1"&gt;
+  </div>
+</div>
+
+<%= back site_path(@site) %>

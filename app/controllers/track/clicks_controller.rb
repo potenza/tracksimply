@@ -1,0 +1,31 @@
+class Track::ClicksController < ApplicationController
+  attr_reader :visitor
+
+  def new
+    tracking_link = TrackingLink.includes(:site).find_by!(token: params[:token])
+    set_visitor
+
+    # setting @click for tests. seems hacky
+    @click = Click.create(
+      site: tracking_link.site,
+      tracking_link: tracking_link,
+      visitor: visitor,
+      details: {
+        ip_address: request.remote_ip,
+        referrer: request.referer
+      }
+    )
+
+    redirect_to "http://#{tracking_link.landing_page_url}"
+  end
+
+  private
+
+  def set_visitor
+    @visitor = Visitor.find(cookies.permanent.signed[:v_id]) if cookies.signed[:v_id]
+    unless @visitor
+      @visitor = Visitor.create
+      cookies.permanent.signed[:v_id] = @visitor.id
+    end
+  end
+end

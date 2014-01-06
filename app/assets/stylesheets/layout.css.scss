@@ -1,0 +1,25 @@
+.navbar {
+  .navbar-brand {
+    font-family: 'Signika', sans-serif;
+    font-size: 24px;
+    color: #fff;
+  }
+}
+.main {
+  margin: 70px 0;
+}
+.page-header {
+  margin-top: 0;
+  padding-bottom: 6px;
+  h1 {
+    margin: 0;
+    font-size: 26px;
+    line-height: 30px;
+  }
+}
+.control-label {
+  text-transform: capitalize;
+}
+.txtr {
+  text-align: right;
+}

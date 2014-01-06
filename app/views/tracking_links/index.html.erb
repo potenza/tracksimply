@@ -1,0 +1,30 @@
+<%= title "#@site Tracking Links" %>
+
+<%= breadcrumbs sites_path, @site, "Tracking Links" %>
+
+<% if @tracking_links.empty? %>
+  <div class="alert alert-warning">No tracking links found.</div>
+<% else %>
+  <table class="table tracking-links">
+    <thead>
+      <tr>
+        <th>Link ID</th>
+        <th>Campaign</th>
+        <th>Source</th>
+        <th>Medium</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tracking_links.each do |tracking_link| %>
+        <tr>
+          <td><%= gicon "link" %> <%= link_to tracking_link.token, [@site, tracking_link] %></td>
+          <td><%= tracking_link.campaign %></td>
+          <td><%= tracking_link.source %></td>
+          <td><%= tracking_link.medium %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+
+<%= link_to "Add a Tracking Link", new_site_tracking_link_path(@site), class: "btn btn-primary" if current_user.admin? %>
