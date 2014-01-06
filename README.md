@@ -4,6 +4,7 @@ Setting up your development environment:
 
 ## Requirements
 
+- Git
 - Ruby 2.0+
 - Postgresql
 
