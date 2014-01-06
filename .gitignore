@@ -18,3 +18,4 @@
 *.swp
 /coverage
 .DS_store
+.env
