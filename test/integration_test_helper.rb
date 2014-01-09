@@ -35,7 +35,7 @@ class ActionDispatch::IntegrationTest
   end
 
   def login_admin
-    visit root_path
+    visit login_path
     fill_in "Email", with: users(:one).email
     fill_in "Password", with: "my-password"
     click_button "Log In"

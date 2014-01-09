@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
         cookies.signed[:auth_token] = user.auth_token
       end
 
-      redirect_to users_path
+      redirect_to sites_path
     else
       @error = "Invalid email and or password combination."
       render "new"

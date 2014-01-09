@@ -27,7 +27,13 @@ class TrackingLinkTest < ActiveSupport::TestCase
 
   test "requires medium" do
     @tracking_link.valid?
-    assert_equal ["can't be blank"], @tracking_link.errors[:medium]
+    assert_equal ["can't be blank", "is not included in the list"], @tracking_link.errors[:medium]
+  end
+
+  test "validates medium" do
+    @tracking_link.medium = "blah blah"
+    @tracking_link.valid?
+    assert_equal ["is not included in the list"], @tracking_link.errors[:medium]
   end
 
   test "requires ad_content" do

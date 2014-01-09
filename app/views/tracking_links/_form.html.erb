@@ -1,17 +1,17 @@
 <%= bootstrap_form_for [site, tracking_link], style: :horizontal, left: "col-md-2", right: "col-md-5" do |f| %>
   <%= f.alert_message "Please fix the errors below" %>
 
+  <%= f.select :medium, TrackingLink::MEDIUMS %>
   <%= f.text_field :landing_page_url, prepend: "http://" %>
   <%= f.text_field :campaign, help: "Examples: Winter Sale, Free Upgrade Promotion" %>
-  <%= f.text_field :source, help: "Examples: Google, Facebook, Blog" %>
-  <%= f.text_field :medium, help: "Examples: PPC, Banner, Post" %>
+  <%= f.text_field :source, help: "Examples: Google, Facebook, Blog, Newsletter" %>
   <%= f.text_field :ad_content, help: "Example: Buy One, Get One Free" %>
 
   <hr>
   <%= f.form_group do %>
     <p><span class="label label-warning">OPTIONAL</span> Track the cost of your ad. You can also upload spend reports later for exact figures.</p>
   <% end %>
-  <%= f.select :cost_type, [["PPC (Pay-per-click)", "pay-per-click"], ["One-Time Payment", "one-time-payment"], ["Monthly Payment", "monthly-payment"]] %>
+  <%= f.select :cost_type, [["Pay-per-click (PPC)", "pay-per-click"], ["One-Time Payment", "one-time-payment"], ["Monthly Payment", "monthly-payment"]] %>
   <%= f.text_field :cost, prepend: "$" %>
   <hr>
 

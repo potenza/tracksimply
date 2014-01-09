@@ -10,13 +10,13 @@ class SessionsControllerTest < ActionController::TestCase
   test "#create (successful login) with remember me on" do
     post :create, email: users(:one).email, password: "my-password", remember_me: "1"
     assert_equal users(:one).auth_token, cookies.permanent.signed[:auth_token]
-    assert_redirected_to users_path
+    assert_redirected_to sites_path
   end
 
   test "#create (successful login) with remember me off" do
     post :create, email: users(:one).email, password: "my-password"
     assert_equal users(:one).auth_token, cookies.signed[:auth_token]
-    assert_redirected_to users_path
+    assert_redirected_to sites_path
   end
 
   test "#create (failed login)" do

@@ -40,13 +40,10 @@ ActiveRecord::Schema.define(version: 20131230193707) do
   add_index "conversions", ["click_id"], name: "index_conversions_on_click_id", using: :btree
 
   create_table "sites", force: true do |t|
-    t.integer  "account_id"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "sites", ["account_id"], name: "index_sites_on_account_id", using: :btree
 
   create_table "tracking_links", force: true do |t|
     t.integer  "site_id"

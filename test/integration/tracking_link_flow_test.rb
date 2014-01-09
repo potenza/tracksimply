@@ -3,7 +3,7 @@ require "integration_test_helper"
 class TrackingLinkFlowTest < ActionDispatch::IntegrationTest
   setup do
     login_admin
-    click_on "My Site"
+    click_on "My Site", match: :first
     click_on "Tracking Links"
   end
 
@@ -12,7 +12,7 @@ class TrackingLinkFlowTest < ActionDispatch::IntegrationTest
     fill_in :tracking_link_landing_page_url, with: "www.google.com"
     fill_in :tracking_link_campaign, with: "My Campaign"
     fill_in :tracking_link_source, with: "My Source"
-    fill_in :tracking_link_medium, with: "My Medium"
+    select TrackingLink::MEDIUMS.first, from: :tracking_link_medium
     fill_in :tracking_link_ad_content, with: "My Ad Content"
     click_on "Create Tracking link"
     assert_page_has_content page, "has been added"
