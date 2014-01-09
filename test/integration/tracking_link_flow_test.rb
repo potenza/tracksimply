@@ -9,7 +9,7 @@ class TrackingLinkFlowTest < ActionDispatch::IntegrationTest
 
   test "add a tracking link" do
     click_on "Add a Tracking Link"
-    fill_in :tracking_link_landing_page_url, with: "www.google.com"
+    fill_in :tracking_link_landing_page_url, with: "http://www.google.com"
     fill_in :tracking_link_campaign, with: "My Campaign"
     fill_in :tracking_link_source, with: "My Source"
     select TrackingLink::MEDIUMS.first, from: :tracking_link_medium

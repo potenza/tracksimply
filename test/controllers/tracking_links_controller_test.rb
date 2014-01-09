@@ -54,7 +54,7 @@ class TrackingLinksControllerTest < ActionController::TestCase
   test "#create (success)" do
     assert_difference("TrackingLink.count") do
       post :create, site_id: tracking_links(:one).site_id, tracking_link: {
-        landing_page_url: "www.google.com",
+        landing_page_url: "http://www.google.com",
         campaign: "my campaign",
         source: "my source",
         medium: TrackingLink::MEDIUMS.first,
@@ -92,7 +92,7 @@ class TrackingLinksControllerTest < ActionController::TestCase
 
   test "#update (success)" do
     post :update, site_id: tracking_links(:one).site_id, id: tracking_links(:one).id, tracking_link: {
-      landing_page_url: "www.google.com",
+      landing_page_url: "http://www.google.com",
       campaign: "my awesome campaign",
       source: "my source",
       medium: TrackingLink::MEDIUMS.first,
