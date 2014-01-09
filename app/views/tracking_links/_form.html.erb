@@ -2,11 +2,7 @@
   <%= f.alert_message "Please fix the errors below" %>
 
   <%= f.select :medium, TrackingLink::MEDIUMS %>
-  <div class="combine-tracking-link-fields">
-    <%# using js to combine these fields. see app/assets/javascripts/tracking_links.js.coffee %>
-    <%= f.select :landing_page_protocol, %w[http:// https://] %>
-    <%= f.text_field :landing_page_url %>
-  </div>
+  <%= f.text_field :landing_page_url %>
   <%= f.text_field :campaign, help: "Examples: Winter Sale, Free Upgrade Promotion" %>
   <%= f.text_field :source, help: "Examples: Google, Facebook, Blog, Newsletter" %>
   <%= f.text_field :ad_content, help: "Example: Buy One, Get One Free" %>

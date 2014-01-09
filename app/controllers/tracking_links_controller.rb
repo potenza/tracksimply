@@ -6,7 +6,7 @@ class TrackingLinksController < ApplicationController
   end
 
   def new
-    @tracking_link = TrackingLink.new
+    @tracking_link = TrackingLink.new(landing_page_url: "http://")
   end
 
   def create

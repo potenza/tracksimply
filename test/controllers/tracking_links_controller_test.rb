@@ -48,6 +48,7 @@ class TrackingLinksControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:site)
     assert_not_nil assigns(:tracking_link)
+    assert_equal "http://", assigns(:tracking_link).landing_page_url
   end
 
   test "#create (success)" do

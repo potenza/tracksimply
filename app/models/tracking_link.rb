@@ -20,10 +20,6 @@ class TrackingLink < ActiveRecord::Base
     token
   end
 
-  def full_landing_page_url
-    "#{landing_page_protocol}#{landing_page_url}"
-  end
-
   private
 
   def set_token

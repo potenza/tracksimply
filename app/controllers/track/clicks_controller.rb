@@ -16,7 +16,7 @@ class Track::ClicksController < ApplicationController
       }
     )
 
-    redirect_to tracking_link.full_landing_page_url
+    redirect_to tracking_link.landing_page_url
   end
 
   private

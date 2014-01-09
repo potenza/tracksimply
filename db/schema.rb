@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140109182953) do
+ActiveRecord::Schema.define(version: 20140109185942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,10 +55,9 @@ ActiveRecord::Schema.define(version: 20140109182953) do
     t.string   "token"
     t.string   "sid"
     t.string   "cost_type"
-    t.decimal  "cost",                  precision: 10, scale: 2
+    t.decimal  "cost",             precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "landing_page_protocol",                          default: "http://"
   end
 
   add_index "tracking_links", ["site_id"], name: "index_tracking_links_on_site_id", using: :btree
