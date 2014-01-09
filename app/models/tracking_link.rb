@@ -7,7 +7,8 @@ class TrackingLink < ActiveRecord::Base
              'Display Ads (Banner Ads)', 'Other']
 
   validates :site_id, presence: true
-  validates :landing_page_url, presence: true
+  validates :landing_page_url, presence: true,
+    format: { with: /\Ahttps?:\/\/+/i, message: "must start with http:// or https://" }
   validates :campaign, presence: true
   validates :source, presence: true
   validates :medium, presence: true,
