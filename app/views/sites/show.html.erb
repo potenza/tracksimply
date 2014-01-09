@@ -6,7 +6,7 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>Click ID</th>
+      <th>Visit ID</th>
       <th>Visitor ID</th>
       <th>Tracking Link</th>
       <th>IP Address</th>
@@ -16,22 +16,22 @@
     </tr>
   </thead>
   <tbody>
-    <% @clicks.each do |click| %>
+    <% @visits.each do |visit| %>
       <tr>
-        <td><%= click.id %></td>
-        <td><%= click.visitor_id %></td>
+        <td><%= visit.id %></td>
+        <td><%= visit.visitor_id %></td>
         <td>
           <%= gicon "link" %>
           <% if current_user.admin? %>
-            <%= link_to click.tracking_link.token, [@site, click.tracking_link] %>
+            <%= link_to visit.tracking_link.token, [@site, visit.tracking_link] %>
           <% else %>
-            <%= click.tracking_link %>
+            <%= visit.tracking_link %>
           <% end %>
         </td>
-        <td><%= click.details["ip_address"] %></td>
-        <td><%= click.details["referrer"] %></td>
-        <td><%= number_to_currency click.tracking_link.cost %></td>
-        <td><%= number_to_currency click.conversion.try(:revenue) %></td>
+        <td><%= visit.details["ip_address"] %></td>
+        <td><%= visit.details["referrer"] %></td>
+        <td><%= number_to_currency visit.tracking_link.cost %></td>
+        <td><%= number_to_currency visit.conversion.try(:revenue) %></td>
       </tr>
     <% end %>
   </tbody>

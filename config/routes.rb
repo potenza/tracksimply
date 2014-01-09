@@ -14,8 +14,8 @@ Rails.application.routes.draw do
 
   # redirects / tracking
   namespace :track do
-    resources :clicks
+    resources :visits
     resources :conversions
   end
-  get 'r/:token', to: 'track/clicks#new'
+  get 'r/:token', to: 'track/visits#new'
 end

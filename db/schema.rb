@@ -11,33 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140109185942) do
+ActiveRecord::Schema.define(version: 20140109202235) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
-  create_table "clicks", force: true do |t|
-    t.integer  "site_id"
-    t.integer  "visitor_id"
-    t.integer  "tracking_link_id"
-    t.hstore   "details"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "clicks", ["site_id"], name: "index_clicks_on_site_id", using: :btree
-  add_index "clicks", ["tracking_link_id"], name: "index_clicks_on_tracking_link_id", using: :btree
-  add_index "clicks", ["visitor_id"], name: "index_clicks_on_visitor_id", using: :btree
-
   create_table "conversions", force: true do |t|
-    t.integer  "click_id"
+    t.integer  "visit_id"
     t.decimal  "revenue",    precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "conversions", ["click_id"], name: "index_conversions_on_click_id", using: :btree
+  add_index "conversions", ["visit_id"], name: "index_conversions_on_visit_id", using: :btree
 
   create_table "sites", force: true do |t|
     t.string   "name"
@@ -80,5 +67,18 @@ ActiveRecord::Schema.define(version: 20140109185942) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "visits", force: true do |t|
+    t.integer  "site_id"
+    t.integer  "visitor_id"
+    t.integer  "tracking_link_id"
+    t.hstore   "details"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "visits", ["site_id"], name: "index_visits_on_site_id", using: :btree
+  add_index "visits", ["tracking_link_id"], name: "index_visits_on_tracking_link_id", using: :btree
+  add_index "visits", ["visitor_id"], name: "index_visits_on_visitor_id", using: :btree
 
 end

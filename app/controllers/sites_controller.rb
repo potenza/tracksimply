@@ -21,7 +21,7 @@ class SitesController < ApplicationController
 
   def show
     @site = Site.find(params[:id])
-    @clicks = @site.clicks.includes(:tracking_link, :conversion)
+    @visits = @site.visits.includes(:tracking_link, :conversion)
   end
 
   def pixel

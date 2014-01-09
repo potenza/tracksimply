@@ -1,8 +1,8 @@
 require "integration_test_helper"
 
-class ClicksAndConversionsTest < ActionDispatch::IntegrationTest
-  test "tracking link click and conversion" do
-    Click.destroy_all
+class VisitsAndConversionsTest < ActionDispatch::IntegrationTest
+  test "tracking link visit and conversion" do
+    Visit.destroy_all
     visit "/r/#{tracking_links(:one).token}"
     visit "/track/conversions?revenue=199.99"
 

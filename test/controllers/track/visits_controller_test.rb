@@ -1,15 +1,15 @@
 require 'test_helper'
 
-class Track::ClicksControllerTest < ActionController::TestCase
-  test "#new creates a click record" do
-    assert_difference("Click.count") do
+class Track::VisitsControllerTest < ActionController::TestCase
+  test "#new creates a visit record" do
+    assert_difference("Visit.count") do
       get :new, token: tracking_links(:one).token
     end
-    assert_equal tracking_links(:one).site_id, assigns(:click).site_id
-    assert_equal tracking_links(:one).id, assigns(:click).tracking_link_id
-    assert_equal cookies.signed[:v_id], assigns(:click).visitor_id
-    assert_equal "0.0.0.0", assigns(:click).details["ip_address"]
-    assert_equal nil, assigns(:click).details["referrer"]
+    assert_equal tracking_links(:one).site_id, assigns(:visit).site_id
+    assert_equal tracking_links(:one).id, assigns(:visit).tracking_link_id
+    assert_equal cookies.signed[:v_id], assigns(:visit).visitor_id
+    assert_equal "0.0.0.0", assigns(:visit).details["ip_address"]
+    assert_equal nil, assigns(:visit).details["referrer"]
   end
 
   test "#new creates a visitor record and stores the id the cookie" do

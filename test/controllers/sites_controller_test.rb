@@ -72,7 +72,7 @@ class SitesControllerTest < ActionController::TestCase
     get :show, id: sites(:one).id
     assert_response :success
     assert_not_nil assigns(:site)
-    assert_not_nil assigns(:clicks)
+    assert_not_nil assigns(:visits)
   end
 
   test "#pixel" do

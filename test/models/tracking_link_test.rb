@@ -12,13 +12,13 @@ class TrackingLinkTest < ActiveSupport::TestCase
 
   test "requires landing_page_url" do
     @tracking_link.valid?
-    assert_equal ["can't be blank", "must start with http:// or https://"], @tracking_link.errors[:landing_page_url]
+    assert_equal ["can't be blank", "Invalid URL. Example: http://www.google.com"], @tracking_link.errors[:landing_page_url]
   end
 
   test "validates landing_page_url protocol" do
     @tracking_link.landing_page_url = "www.google.com"
     @tracking_link.valid?
-    assert_equal ["must start with http:// or https://"], @tracking_link.errors[:landing_page_url]
+    assert_equal ["Invalid URL. Example: http://www.google.com"], @tracking_link.errors[:landing_page_url]
   end
 
   test "requires campaign" do

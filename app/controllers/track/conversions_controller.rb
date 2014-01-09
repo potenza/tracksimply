@@ -3,10 +3,10 @@ class Track::ConversionsController < ApplicationController
 
   def index
     set_visitor
-    click = visitor.most_recent_click
+    visit = visitor.most_recent_visit
 
     # setting @conversion for testing (seems hacky)
-    @conversion = click.create_conversion(
+    @conversion = visit.create_conversion(
       revenue: params[:revenue]
     )
 

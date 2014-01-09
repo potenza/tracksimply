@@ -1,12 +1,12 @@
-class Track::ClicksController < ApplicationController
+class Track::VisitsController < ApplicationController
   attr_reader :visitor
 
   def new
     tracking_link = TrackingLink.includes(:site).find_by!(token: params[:token])
     set_visitor
 
-    # setting @click for tests. seems hacky
-    @click = Click.create(
+    # setting @visit for tests. seems hacky
+    @visit = Visit.create(
       site: tracking_link.site,
       tracking_link: tracking_link,
       visitor: visitor,

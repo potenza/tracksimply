@@ -6,9 +6,9 @@ class VisitorTest < ActiveSupport::TestCase
     assert_equal visitors(:one).id, visitors(:one).name
   end
 
-  test "#most_recent_click" do
-    click = Click.create
-    visitors(:one).clicks << click
-    assert_equal click, visitors(:one).most_recent_click
+  test "#most_recent_visit" do
+    visit = Visit.create
+    visitors(:one).visits << visit
+    assert_equal visit, visitors(:one).most_recent_visit
   end
 end

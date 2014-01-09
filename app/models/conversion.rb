@@ -1,3 +1,3 @@
 class Conversion < ActiveRecord::Base
-  belongs_to :click
+  belongs_to :visit
 end
