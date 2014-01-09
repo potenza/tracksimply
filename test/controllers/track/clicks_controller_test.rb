@@ -28,6 +28,6 @@ class Track::ClicksControllerTest < ActionController::TestCase
 
   test "#new redirects to the tracking link landing page" do
     get :new, token: tracking_links(:one).token
-    assert_redirected_to "http://#{tracking_links(:one).landing_page_url}"
+    assert_redirected_to tracking_links(:one).full_landing_page_url
   end
 end

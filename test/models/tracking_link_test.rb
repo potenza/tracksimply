@@ -44,4 +44,8 @@ class TrackingLinkTest < ActiveSupport::TestCase
   test "#to_s returns token" do
     assert_equal "053c8581", tracking_links(:one).to_s
   end
+
+  test "#full_landing_page_url" do
+    assert_equal "http://www.my-website.com", tracking_links(:one).full_landing_page_url
+  end
 end

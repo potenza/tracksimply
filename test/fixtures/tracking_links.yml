@@ -1,6 +1,7 @@
 one:
   site: one
   landing_page_url: www.my-website.com
+  landing_page_protocol: http://
   campaign: My Campaign
   source: My Source
   medium: My Medium

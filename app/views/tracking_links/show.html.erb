@@ -9,7 +9,7 @@
   </tr>
   <tr>
     <th>Landing Page URL</th>
-    <td><%= link_to "http://#{@tracking_link.landing_page_url}", "http://#{@tracking_link.landing_page_url}", target: "_blank" %></td>
+    <td><%= link_to @tracking_link.full_landing_page_url, @tracking_link.full_landing_page_url, target: "_blank" %></td>
   </tr>
   <tr>
     <th>Campaign</th>

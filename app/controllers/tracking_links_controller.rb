@@ -48,6 +48,6 @@ class TrackingLinksController < ApplicationController
   end
 
   def tracking_link_params
-    params.require(:tracking_link).permit(:landing_page_url, :campaign, :source, :medium, :ad_content, :token, :sid, :cost_type, :cost)
+    params.require(:tracking_link).permit(:landing_page_protocol, :landing_page_url, :campaign, :source, :medium, :ad_content, :token, :sid, :cost_type, :cost)
   end
 end

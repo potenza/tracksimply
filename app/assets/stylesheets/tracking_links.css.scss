@@ -1,3 +1,9 @@
-// Place all the styles related to the TrackingLinks controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#tracking_link_landing_page_protocol {
+  display: inline-block;
+  width: 80px;
+}
+#tracking_link_landing_page_url {
+  display: inline-block;
+  width: 370px;
+  margin-left: 7px;
+}
