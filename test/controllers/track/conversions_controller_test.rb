@@ -11,4 +11,11 @@ class Track::ConversionsControllerTest < ActionController::TestCase
     end
     assert_equal assigns(:conversion).revenue, 4.99
   end
+
+  test "#index doesn't blowup if visitor not found" do
+    cookies.signed[:v_id] = "1234-bad-id"
+    assert_nothing_raised do
+      get :index, revenue: "4.99"
+    end
+  end
 end

@@ -23,7 +23,7 @@ class Track::VisitsController < ApplicationController
   private
 
   def set_visitor
-    @visitor = Visitor.find(cookies.permanent.signed[:v_id]) if cookies.signed[:v_id]
+    @visitor = Visitor.find_by_id(cookies.permanent.signed[:v_id]) if cookies.signed[:v_id]
     unless @visitor
       @visitor = Visitor.create
       cookies.permanent.signed[:v_id] = @visitor.id

@@ -26,6 +26,13 @@ class Track::VisitsControllerTest < ActionController::TestCase
     end
   end
 
+  test "#new doesn't blowup if visitor not found" do
+    cookies.signed[:v_id] = "1234-bad-id"
+    assert_nothing_raised do
+      get :new, token: tracking_links(:one).token
+    end
+  end
+
   test "#new redirects to the tracking link landing page" do
     get :new, token: tracking_links(:one).token
     assert_redirected_to tracking_links(:one).landing_page_url
