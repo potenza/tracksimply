@@ -11,6 +11,7 @@ class Track::ClicksController < ApplicationController
       tracking_link: tracking_link,
       visitor: visitor,
       details: {
+        keyword: params[:kw],
         ip_address: request.remote_ip,
         referrer: request.referer
       }
