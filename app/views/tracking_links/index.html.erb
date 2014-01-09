@@ -9,18 +9,20 @@
     <thead>
       <tr>
         <th>Link ID</th>
+        <th>Medium</th>
         <th>Campaign</th>
         <th>Source</th>
-        <th>Medium</th>
+        <th>Ad Content</th>
       </tr>
     </thead>
     <tbody>
       <% @tracking_links.each do |tracking_link| %>
         <tr>
           <td><%= gicon "link" %> <%= link_to tracking_link.token, [@site, tracking_link] %></td>
+          <td><%= tracking_link.medium %></td>
           <td><%= tracking_link.campaign %></td>
           <td><%= tracking_link.source %></td>
-          <td><%= tracking_link.medium %></td>
+          <td><%= tracking_link.ad_content %></td>
         </tr>
       <% end %>
     </tbody>

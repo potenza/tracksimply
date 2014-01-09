@@ -8,6 +8,10 @@
     <td><%= gicon "link" %> <%= @tracking_link.token %></td>
   </tr>
   <tr>
+    <th>Medium</th>
+    <td><%= @tracking_link.medium %></td>
+  </tr>
+  <tr>
     <th>Landing Page URL</th>
     <td><%= link_to @tracking_link.landing_page_url, @tracking_link.landing_page_url, target: "_blank" %></td>
   </tr>
@@ -18,10 +22,6 @@
   <tr>
     <th>Source</th>
     <td><%= @tracking_link.source %></td>
-  </tr>
-  <tr>
-    <th>Medium</th>
-    <td><%= @tracking_link.medium %></td>
   </tr>
   <tr>
     <th>Ad Content</th>
