@@ -1,7 +1,7 @@
 <%= bootstrap_form_for [site, tracking_link], style: :horizontal, left: "col-md-2", right: "col-md-5" do |f| %>
   <%= f.alert_message "Please fix the errors below" %>
 
-  <%= f.select :medium, TrackingLink::MEDIUMS %>
+  <%= f.select :medium, TrackingLink::MEDIA %>
   <%= f.text_field :landing_page_url %>
   <%= f.text_field :campaign, help: "Examples: Winter Sale, Free Upgrade Promotion" %>
   <%= f.text_field :source, help: "Examples: Google, Facebook, Blog, Newsletter" %>

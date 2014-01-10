@@ -1,7 +1,7 @@
-window.TrackSimply.Charts.VisitsAndConversions = ($elem, visits, conversions) ->
+window.TrackSimply.Charts.Visitors = ($elem, visits, conversions) ->
   $elem.highcharts
     title:
-      text: 'Visits & Conversions'
+      text: 'Visitors'
 
     legend:
       enabled: false

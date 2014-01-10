@@ -1,16 +1,8 @@
-class VisitsAndConversionsChart
-  attr_reader :site, :time_zone, :start_date, :end_date
+class VisitorsChart
+  include Tracksimply::Chart
 
-  def initialize(site, time_zone = "UTC")
-    @site = site
-    @time_zone = time_zone
-  end
-
-  def data(start_date = nil, end_date = nil)
-    Time.use_zone(time_zone) do
-      @start_date = start_date || Time.zone.today - 29
-      @end_date = end_date || Time.zone.today
-    end
+  def query(start_date, end_date)
+    set_date_range(start_date, end_date)
 
     {
       visits: count(site.visits),

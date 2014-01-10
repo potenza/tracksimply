@@ -7,12 +7,12 @@ class Api::SitesControllerTest < ActionController::TestCase
 
   test "requires user" do
     cookies.signed[:auth_token] = "bad-auth-token"
-    get :visits_and_conversions, id: sites(:one).id
+    get :visitors_chart, id: sites(:one).id
     assert_redirected_to login_path
   end
 
-  test "#visits_and_conversions" do
-    get :visits_and_conversions, id: sites(:one).id
+  test "#visitors_chart" do
+    get :visitors_chart, id: sites(:one).id
     assert_response :success
 
     assert_match /visits/, @response.body

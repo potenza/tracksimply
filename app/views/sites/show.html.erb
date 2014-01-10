@@ -2,7 +2,7 @@
 
 <%= breadcrumbs sites_path, @site %>
 
-<div class="site-main-chart" data-url="<%= visits_and_conversions_api_site_path(@site) %>"></div>
+<div class="site-main-chart" data-url="<%= visitors_chart_api_site_path(@site) %>"></div>
 
 <% if current_user.admin? %>
   <div class="row">

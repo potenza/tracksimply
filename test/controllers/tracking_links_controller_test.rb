@@ -57,7 +57,7 @@ class TrackingLinksControllerTest < ActionController::TestCase
         landing_page_url: "http://www.google.com",
         campaign: "my campaign",
         source: "my source",
-        medium: TrackingLink::MEDIUMS.first,
+        medium: TrackingLink::MEDIA.first,
         ad_content: "my ad content"
       }
     end
@@ -95,7 +95,7 @@ class TrackingLinksControllerTest < ActionController::TestCase
       landing_page_url: "http://www.google.com",
       campaign: "my awesome campaign",
       source: "my source",
-      medium: TrackingLink::MEDIUMS.first,
+      medium: TrackingLink::MEDIA.first,
       ad_content: "my ad content"
     }
     assert_equal "my awesome campaign", tracking_links(:one).reload.campaign

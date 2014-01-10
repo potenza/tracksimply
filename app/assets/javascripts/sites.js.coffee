@@ -10,5 +10,8 @@ $ ->
 displayCharts = ->
   $chart = $(".site-main-chart")
   if $chart.length > 0
-    $.getJSON $chart.data("url"), (data) ->
-      TrackSimply.Charts.VisitsAndConversions($chart, data.visits, data.conversions)
+    startDate = Date.today().add(-29).days().toString("yyyy-MM-dd")
+    endDate = Date.today().toString("yyyy-MM-dd")
+
+    $.getJSON $chart.data("url"), { start_date: startDate, end_date: endDate }, (data) ->
+      TrackSimply.Charts.Visitors($chart, data.visits, data.conversions)

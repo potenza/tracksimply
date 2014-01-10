@@ -12,7 +12,7 @@ class TrackingLinkFlowTest < ActionDispatch::IntegrationTest
     fill_in :tracking_link_landing_page_url, with: "http://www.google.com"
     fill_in :tracking_link_campaign, with: "My Campaign"
     fill_in :tracking_link_source, with: "My Source"
-    select TrackingLink::MEDIUMS.first, from: :tracking_link_medium
+    select TrackingLink::MEDIA.first, from: :tracking_link_medium
     fill_in :tracking_link_ad_content, with: "My Ad Content"
     click_on "Create Tracking link"
     assert_page_has_content page, "has been added"

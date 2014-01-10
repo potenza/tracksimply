@@ -13,7 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-//= require track_simply
-//= require_tree .
 //= require bootstrap
 //= require highcharts
+//= require date
+//= require track_simply
+//= require_tree .

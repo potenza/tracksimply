@@ -1,8 +1,10 @@
 class TrackingLink < ActiveRecord::Base
   belongs_to :site
   has_many :visits
+  has_many :conversions, through: :visits
+  has_many :expenses
 
-  MEDIUMS = ['Paid Search', 'Social Media', 'Email', 'Mobile', 'Blogs',
+  MEDIA = ['Paid Search', 'Social Media', 'Email', 'Mobile', 'Blogs',
              'Classifieds', 'Press Release', 'Referral',
              'Display Ads (Banner Ads)', 'Other']
 
@@ -14,7 +16,7 @@ class TrackingLink < ActiveRecord::Base
   validates :campaign, presence: true
   validates :source, presence: true
   validates :medium, presence: true,
-    inclusion: { within: MEDIUMS }
+    inclusion: { within: MEDIA }
   validates :ad_content, presence: true
 
   before_create :set_token
