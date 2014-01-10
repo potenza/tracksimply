@@ -11,7 +11,7 @@
   <%= f.form_group do %>
     <p><span class="label label-warning">OPTIONAL</span> Track the cost of your ad. You can also upload spend reports later for exact figures.</p>
   <% end %>
-  <%= f.select :cost_type, [["Pay-per-click (PPC)", "pay-per-click"], ["One-Time Payment", "one-time-payment"], ["Monthly Payment", "monthly-payment"]] %>
+  <%= f.select :cost_type, TrackingLink::COST_TYPES %>
   <%= f.text_field :cost, prepend: "$" %>
   <hr>
 

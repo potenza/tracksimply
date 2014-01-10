@@ -6,6 +6,8 @@ class TrackingLink < ActiveRecord::Base
              'Classifieds', 'Press Release', 'Referral',
              'Display Ads (Banner Ads)', 'Other']
 
+  COST_TYPES = ['Pay Per Click', 'One-Time Payment', 'Monthly Payment']
+
   validates :site_id, presence: true
   validates :landing_page_url, presence: true,
     format: { with: /\Ahttps?:\/\/.+/i, message: "Invalid URL. Example: http://www.google.com" }
