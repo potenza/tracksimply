@@ -14,6 +14,10 @@ window.TrackSimply.Charts.VisitsAndConversions = ($elem, visits, conversions) ->
       title:
         enabled: false
 
+    tooltip:
+      xDateFormat: '%b %e, %Y'
+      pointFormat: '{series.name}: <b>{point.y}</b><br/>'
+
     series: [
       type: 'column'
       name: 'Visits'
