@@ -12,6 +12,14 @@ Rails.application.routes.draw do
   end
   resources :users, except: [:show]
 
+  namespace :data do
+    resources :sites, only: [] do
+      member do
+        get :visits_and_conversions
+      end
+    end
+  end
+
   # redirects / tracking
   namespace :track do
     resources :visits

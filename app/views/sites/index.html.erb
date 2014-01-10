@@ -8,9 +8,9 @@
   <table class="table table-bordered">
     <% @sites.each do |site| %>
       <tr>
-        <td>
-          <%= gicon "stats" %> <%= link_to site, site %>
-        </td>
+        <td><%= gicon "stats" %> <%= link_to site, site %></td>
+        <td><%= pluralize site.visits.count, "Visit" %></td>
+        <td><%= pluralize site.conversions.count, "Conversion" %></td>
       </tr>
     <% end %>
   </table>

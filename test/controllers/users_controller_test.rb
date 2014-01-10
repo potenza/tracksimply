@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
   setup do
-    cookies.signed[:auth_token] = users(:one).auth_token
+    set_auth_token(users(:one))
   end
 
   test "requires user" do

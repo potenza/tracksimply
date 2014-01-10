@@ -2,40 +2,7 @@
 
 <%= breadcrumbs sites_path, @site %>
 
-<h4>Recent Visits</h4>
-<table class="table table-bordered">
-  <thead>
-    <tr>
-      <th>Visit ID</th>
-      <th>Visitor ID</th>
-      <th>Tracking Link</th>
-      <th>IP Address</th>
-      <th>Referrer</th>
-      <th>Cost</th>
-      <th>Revenue</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @visits.each do |visit| %>
-      <tr>
-        <td><%= visit.id %></td>
-        <td><%= visit.visitor_id %></td>
-        <td>
-          <%= gicon "link" %>
-          <% if current_user.admin? %>
-            <%= link_to visit.tracking_link.token, [@site, visit.tracking_link] %>
-          <% else %>
-            <%= visit.tracking_link %>
-          <% end %>
-        </td>
-        <td><%= visit.details["ip_address"] %></td>
-        <td><%= visit.details["referrer"] %></td>
-        <td><%= number_to_currency visit.tracking_link.cost %></td>
-        <td><%= number_to_currency visit.conversion.try(:revenue) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="site-main-chart" data-url="<%= visits_and_conversions_data_site_path(@site) %>"></div>
 
 <% if current_user.admin? %>
   <div class="row">

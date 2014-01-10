@@ -20,5 +20,7 @@ class ActiveSupport::TestCase
   # -- they do not yet inherit this setting
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  def set_auth_token(user)
+    cookies.signed[:auth_token] = user.auth_token
+  end
 end
