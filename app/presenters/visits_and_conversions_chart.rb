@@ -7,8 +7,11 @@ class VisitsAndConversionsChart
   end
 
   def data(start_date = nil, end_date = nil)
-    @start_date = start_date || Date.today - 29
-    @end_date = end_date || Date.today
+    Time.use_zone(time_zone) do
+      @start_date = start_date || Time.zone.today - 29
+      @end_date = end_date || Time.zone.today
+    end
+
     {
       visits: count(site.visits),
       conversions: count(site.conversions)
