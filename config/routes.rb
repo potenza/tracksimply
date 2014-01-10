@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
   resources :users, except: [:show]
 
-  namespace :data do
+  namespace :api do
     resources :sites, only: [] do
       member do
         get :visits_and_conversions

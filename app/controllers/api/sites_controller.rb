@@ -1,4 +1,4 @@
-class Data::SitesController < ApplicationController
+class Api::SitesController < ApplicationController
   before_action :require_user
 
   def visits_and_conversions

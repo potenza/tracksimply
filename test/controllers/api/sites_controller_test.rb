@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class Data::SitesControllerTest < ActionController::TestCase
+class Api::SitesControllerTest < ActionController::TestCase
   setup do
     set_auth_token(users(:one))
   end
