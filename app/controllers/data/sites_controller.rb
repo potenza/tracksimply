@@ -3,7 +3,7 @@ class Data::SitesController < ApplicationController
 
   def visits_and_conversions
     site = Site.find(params[:id])
-    chart = VisitsAndConversionsChart.new(site)
+    chart = VisitsAndConversionsChart.new(site, current_user.time_zone)
     render json: chart.data.to_json
   end
 end

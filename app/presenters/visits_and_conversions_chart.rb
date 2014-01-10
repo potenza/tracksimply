@@ -1,8 +1,9 @@
 class VisitsAndConversionsChart
-  attr_reader :site, :start_date, :end_date
+  attr_reader :site, :time_zone, :start_date, :end_date
 
-  def initialize(site)
+  def initialize(site, time_zone = "UTC")
     @site = site
+    @time_zone = time_zone
   end
 
   def data(start_date = nil, end_date = nil)
@@ -17,11 +18,13 @@ class VisitsAndConversionsChart
   private
 
   def count(relation)
-    start_date.upto(end_date).map do |date|
-      [
-        date.strftime("%Q").to_i,
-        relation.where(created_at: date.beginning_of_day..date.end_of_day).count
-      ]
+    Time.use_zone(time_zone) do
+      start_date.upto(end_date).map do |date|
+        [
+          date.strftime("%Q").to_i,
+          relation.where(created_at: date.beginning_of_day..date.end_of_day).count
+        ]
+      end
     end
   end
 end
