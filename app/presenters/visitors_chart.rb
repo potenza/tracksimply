@@ -2,7 +2,7 @@ class VisitorsChart
   include Chart
 
   def query(start_date, end_date)
-    set_date_range(start_date, end_date)
+    parse_dates(start_date, end_date)
 
     {
       visits: count(site.visits),

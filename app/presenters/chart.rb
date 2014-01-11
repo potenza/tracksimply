@@ -12,7 +12,7 @@ module Chart
 
   private
 
-  def set_date_range(start_date, end_date)
+  def parse_dates(start_date, end_date)
     @start_date = Date.parse(start_date)
     @end_date = Date.parse(end_date)
   rescue
