@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require highcharts
+//= require templates
 //= require date
 //= require track_simply
 //= require_tree .

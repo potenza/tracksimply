@@ -2,10 +2,6 @@
 
 <%= breadcrumbs sites_path, @site %>
 
-<div class="site-main-chart" data-url="<%= visitors_chart_api_site_path(@site) %>"></div>
-
-<div class="site-media-chart" data-url="<%= media_chart_api_site_path(@site) %>"></div>
-
 <% if current_user.admin? %>
   <div class="row">
     <div class="col-md-6">
@@ -18,3 +14,32 @@
     </div>
   </div>
 <% end %>
+
+<div class="site-visitor-chart" data-url="<%= visitors_chart_api_site_path(@site) %>"></div>
+
+<table class="table site-media-table" data-url="<%= media_chart_api_site_path(@site) %>">
+  <thead>
+    <tr>
+      <th>Medium</td>
+      <th>Visits</td>
+      <th>Conversions</td>
+      <th>Conversion Rate</td>
+      <th>Cost</td>
+      <th>Revenue</td>
+      <th>Profit</td>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script type="text/html" id="site-medium-template">
+  <tr class="site-medium">
+    <td><%%= medium %></td>
+    <td><%%= visits %></td>
+    <td><%%= conversions %></td>
+    <td><%%= conversion_rate %>%</td>
+    <td>$<%%= cost %></td>
+    <td>$<%%= revenue %></td>
+    <td>$<%%= profit %></td>
+  </tr>
+</script>
