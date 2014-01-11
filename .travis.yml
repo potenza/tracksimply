@@ -1,5 +1,4 @@
 language: ruby
-rvm:
-  - 2.1.0
-before_script:
-  - echo SECRET_KEY_BASE=`rake secret` | cat - .env-sample > .env
+rvm: 2.1.0
+before_script: echo SECRET_KEY_BASE=`rake secret` | cat - .env-sample > .env
+script: foreman run rake test
