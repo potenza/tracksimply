@@ -17,5 +17,5 @@
 //= require highcharts
 //= require templates
 //= require date
-//= require track_simply
+//= require tracksimply
 //= require_tree .

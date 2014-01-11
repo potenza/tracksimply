@@ -1,7 +1,14 @@
+Sites#show
+
+  - Implement UI to select a date range and filter by medium
+
 Expenses
 
-  - Tracking Link: set a start and end day for monthly payments
+  - Tracking Link: add a start and end dates for monthly payments
 
-  - create expense records for Tracking Links with One-Time Payment or Monthly Payment
+  - auto create expense records for Tracking Links with One-Time Payment or Monthly Payment
 
-  - create daily spend records for Tracking Links with PPC values
+  - create daily expense records for Tracking Links with PPC values (based on visits * estimated cost)
+
+  - overwrite daily spend records for any tracking link that has been updated via CSV upload or through the Adwords API (this task will take a few days)
+

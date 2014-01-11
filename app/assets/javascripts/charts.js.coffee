@@ -1,4 +1,4 @@
-window.TrackSimply.Charts.Visitors = ($elem, visits, conversions) ->
+window.Tracksimply.Charts.Visitors = ($elem, visits, conversions) ->
   $elem.highcharts
     title:
       text: 'Visitors'
