@@ -1,4 +1,5 @@
 language: ruby
 rvm: 2.1.0
+install: gem install foreman
 before_script: echo SECRET_KEY_BASE=`rake secret` | cat - .env-sample > .env
-script: bundle exec foreman run rake test
+script: foreman run rake test
