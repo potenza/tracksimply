@@ -2,6 +2,8 @@ Sites#show
 
   - Implement UI to select a date range and filter by medium
 
+  - test coffeescript?
+
 Expenses
 
   - Tracking Link: add a start and end dates for monthly payments
