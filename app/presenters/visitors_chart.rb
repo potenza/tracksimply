@@ -1,5 +1,5 @@
 class VisitorsChart
-  include Tracksimply::Chart
+  include Chart
 
   def query(start_date, end_date)
     set_date_range(start_date, end_date)

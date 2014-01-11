@@ -18,4 +18,20 @@ class Api::SitesControllerTest < ActionController::TestCase
     assert_match /visits/, @response.body
     assert_match /conversions/, @response.body
   end
+
+  test "#media_chart" do
+    get :media_chart, id: sites(:one).id
+    assert_response :success
+
+    response = JSON.parse(@response.body)
+    stats = response.first
+
+    assert_equal TrackingLink::MEDIA.first, stats["medium"]
+    assert_equal 0, stats["visits"]
+    assert_equal 0, stats["conversions"]
+    assert_equal 0, stats["conversion_rate"]
+    assert_equal 0.0, stats["cost"].to_f
+    assert_equal 0.0, stats["revenue"].to_f
+    assert_equal 0.0, stats["profit"].to_f
+  end
 end
