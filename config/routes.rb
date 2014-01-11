@@ -15,8 +15,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :sites, only: [] do
       member do
-        get :visitors_chart
-        get :media_chart
+        get :visitors_chart, :media_chart
       end
     end
   end
