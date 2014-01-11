@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/tracksimply/tracksimply.png)](https://codeclimate.com/github/tracksimply/tracksimply)
+
 # TrackSimply
 
 Setting up your development environment:
