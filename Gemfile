@@ -15,8 +15,9 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 gem 'unicorn'
 
 gem 'bootstrap-sass'
-gem 'bootstrap_form', git: 'git://github.com/potenza/bootstrap_form.git', branch: 'rails-4.1.0'
 gem 'bourbon'
+gem 'bootstrap_form', git: 'git://github.com/potenza/bootstrap_form.git', branch: 'rails-4.1.0'
+gem 'bootstrap-datepicker-rails'
 
 group :test do
   gem 'capybara'
