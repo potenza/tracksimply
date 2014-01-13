@@ -1,10 +1,7 @@
 $(document).on "keyup", ".site-conversion-code .form-control", (e) ->
   $(".site-conversion-code .well span").html($(".site-conversion-code .form-control").val())
 
-$(document).on "page:load", (e) ->
-  displayDefaultCharts()
-
-$ ->
+ready = ->
   displayDefaultCharts()
 
 displayDefaultCharts = ->
@@ -26,3 +23,6 @@ displayMediaTable = (startDate, endDate) ->
   $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate }, (data) ->
     tpl = $("#site-medium-template").html()
     $body.append(tmpl(tpl, stats)) for stats in data
+
+$(document).ready ready
+$(document).on "page:load", ready
