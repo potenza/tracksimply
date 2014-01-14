@@ -33,7 +33,8 @@ class SiteStatsController
     $("#end-date").datepicker("update", endDate.toString("MM/dd/yyyy"))
     @updateCharts()
 
-  updateCharts: ->
+  updateCharts: =>
+    $(".date-picker").datepicker("hide")
     try
       startDate = Date.parse($("#start-date").val()).toString("yyyy-MM-dd")
       endDate = Date.parse($("#end-date").val()).toString("yyyy-MM-dd")
@@ -58,15 +59,15 @@ class SiteStatsController
 
   dateRangeShortcut: (shortcut) ->
     if shortcut == "today"
-      startDate = endDate = Date.parse('t')
+      startDate = endDate = Date.parse("t")
     else if shortcut == "yesterday"
-      startDate = endDate = Date.parse('t-1')
+      startDate = endDate = Date.parse("t-1")
     else if shortcut == "last-7-days"
-      startDate = Date.parse('t-6')
-      endDate = Date.parse('t')
+      startDate = Date.parse("t-6")
+      endDate = Date.parse("t")
     else if shortcut == "last-30-days"
-      startDate = Date.parse('t-29')
-      endDate = Date.parse('t')
+      startDate = Date.parse("t-29")
+      endDate = Date.parse("t")
     else if shortcut == "this-month"
       startDate = Date.today().clearTime().moveToFirstDayOfMonth()
       endDate = Date.today().clearTime().moveToLastDayOfMonth()
