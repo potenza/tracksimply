@@ -1,10 +1,10 @@
 class SiteStatsController
   setup: ->
-    @destroyEventHandler() # kill off any existing event handlers
+    @destroyEventHandlers() # kill off any existing event handlers
     @setEventHandlers()
     @setDefaultDates()
 
-  destroyEventHandler: ->
+  destroyEventHandlers: ->
     $(".date-picker").datepicker().off "changeDate"
     $(document).off "click", "[data-date-shortcut]"
     $(document).off "change", "select#medium"
