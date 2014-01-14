@@ -1,2 +1,1 @@
-window.Tracksimply = window.Tracksimply ||
-  Charts: {}
+window.App = window.App || {}

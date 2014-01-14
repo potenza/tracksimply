@@ -1,5 +1,9 @@
 <%= title @site %>
 
+<% content_for :javascript do %>
+  <%= javascript_tag "App.siteStatsController.setup();" %>
+<% end %>
+
 <%= breadcrumbs sites_path, @site %>
 
 <% if current_user.admin? %>
