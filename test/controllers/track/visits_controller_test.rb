@@ -5,7 +5,6 @@ class Track::VisitsControllerTest < ActionController::TestCase
     assert_difference("Visit.count") do
       get :new, token: tracking_links(:one).token
     end
-    assert_equal tracking_links(:one).site_id, assigns(:visit).site_id
     assert_equal tracking_links(:one).id, assigns(:visit).tracking_link_id
     assert_equal cookies.signed[:v_id], assigns(:visit).visitor_id
     assert_equal "0.0.0.0", assigns(:visit).details["ip_address"]

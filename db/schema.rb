@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140110232943) do
+ActiveRecord::Schema.define(version: 20140114020635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 20140110232943) do
   end
 
   create_table "visits", force: true do |t|
-    t.integer  "site_id"
     t.integer  "visitor_id"
     t.integer  "tracking_link_id"
     t.hstore   "details"
@@ -88,7 +87,6 @@ ActiveRecord::Schema.define(version: 20140110232943) do
     t.datetime "updated_at"
   end
 
-  add_index "visits", ["site_id"], name: "index_visits_on_site_id", using: :btree
   add_index "visits", ["tracking_link_id"], name: "index_visits_on_tracking_link_id", using: :btree
   add_index "visits", ["visitor_id"], name: "index_visits_on_visitor_id", using: :btree
 

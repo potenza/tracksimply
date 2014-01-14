@@ -7,7 +7,6 @@ class Track::VisitsController < ApplicationController
 
     # setting @visit for tests. seems hacky
     @visit = Visit.create(
-      site: tracking_link.site,
       tracking_link: tracking_link,
       visitor: visitor,
       details: {
