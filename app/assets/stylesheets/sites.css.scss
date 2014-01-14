@@ -1,6 +1,19 @@
-.site-conversion-code {
-  form {
-    margin-bottom: 20px;
+.site-date-pickers {
+  background: #fcfcfc;
+  margin: 20px auto;
+  text-align: center;
+  .date-picker {
+    display: inline-block;
+    max-width: 110px;
+  }
+  select {
+    margin-left: 10px;
+    display: inline-block;
+    max-width: 200px;
+  }
+  .btn-group {
+    margin-left: 10px;
+    text-align: left;
   }
 }
 .site-visitor-chart {
@@ -9,4 +22,9 @@
 }
 .site-media-table {
   margin-bottom: 40px;
+}
+.site-conversion-code {
+  form {
+    margin-bottom: 20px;
+  }
 }

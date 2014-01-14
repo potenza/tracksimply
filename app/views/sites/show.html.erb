@@ -15,6 +15,32 @@
   </div>
 <% end %>
 
+<div class="well well-sm site-date-pickers">
+  Visitors from
+  <input type="text" id="start-date" class="form-control date-picker">
+  to
+  <input type="text" id="end-date" class="form-control date-picker">
+
+  <select id="medium" class="form-control">
+    <option value="">All Media</option>
+    <%= options_for_select TrackingLink::MEDIA %>
+  </select>
+
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      <%= gicon "calendar" %> Shortcuts <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a href="#" data-date-shortcut="today">Today</a></li>
+      <li><a href="#" data-date-shortcut="yesterday">Yesterday</a></li>
+      <li><a href="#" data-date-shortcut="last-7-days">Last 7 Days</a></li>
+      <li><a href="#" data-date-shortcut="last-30-days">Last 30 Days</a></li>
+      <li><a href="#" data-date-shortcut="this-month">This Month</a></li>
+      <li><a href="#" data-date-shortcut="last-month">Last Month</a></li>
+    </ul>
+  </div>
+</div>
+
 <div class="site-visitor-chart" data-url="<%= visitors_chart_api_site_path(@site) %>"></div>
 
 <table class="table site-media-table" data-url="<%= media_chart_api_site_path(@site) %>">

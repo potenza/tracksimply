@@ -1,7 +1,5 @@
 Sites#show
 
-  - Implement UI to select a date range and filter by medium
-
   - test coffeescript?
 
 Expenses
@@ -13,4 +11,3 @@ Expenses
   - create daily expense records for Tracking Links with PPC values (based on visits * estimated cost)
 
   - overwrite daily spend records for any tracking link that has been updated via CSV upload or through the Adwords API (this task will take a few days)
-

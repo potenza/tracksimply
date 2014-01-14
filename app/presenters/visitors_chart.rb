@@ -1,12 +1,12 @@
 class VisitorsChart
   include Chart
 
-  def query(start_date, end_date)
+  def query(start_date, end_date, medium = nil)
     parse_dates(start_date, end_date)
-
+    medium = ["tracking_links.medium = ?", medium] if medium
     {
-      visits: count(site.visits),
-      conversions: count(site.conversions)
+      visits: count(site.visits.where(medium)),
+      conversions: count(site.conversions.where(medium))
     }
   end
 

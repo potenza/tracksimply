@@ -1,3 +1,4 @@
 one:
   visit: one
   revenue: 9.99
+  created_at: <%= Date.today.to_s(:db) %>

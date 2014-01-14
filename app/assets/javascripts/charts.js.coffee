@@ -1,7 +1,10 @@
 window.Tracksimply.Charts.Visitors = ($elem, visits, conversions) ->
+  max = Math.max.apply(this, visits.map((visit) -> parseInt(visit[1])))
+  max = 3 if max == 0
+
   $elem.highcharts
     title:
-      text: 'Visitors'
+      text: false
 
     legend:
       enabled: false
@@ -10,6 +13,8 @@ window.Tracksimply.Charts.Visitors = ($elem, visits, conversions) ->
       type: 'datetime'
 
     yAxis:
+      min: 0
+      max: max
       gridLineColor: '#f9f9f9'
       title:
         enabled: false
@@ -22,6 +27,7 @@ window.Tracksimply.Charts.Visitors = ($elem, visits, conversions) ->
       type: 'column'
       name: 'Visits'
       color: '#c0e5f5'
+      minPointLength: 8
       states:
         hover:
           color: '#c0e5f5'
