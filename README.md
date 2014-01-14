@@ -11,7 +11,6 @@ Setting up your development environment:
 - Postgresql
 
 ```
-gem install foreman
 git clone https://github.com/tracksimply/tracksimply
 cd tracksimply
 bundle

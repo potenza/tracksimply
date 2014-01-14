@@ -2,7 +2,7 @@ ruby '2.1.0'
 
 source 'https://rubygems.org'
 
-gem 'foreman' # for travisci
+gem 'foreman'
 gem 'rails', '4.1.0.beta1'
 gem 'pg'
 gem 'sass-rails', '~> 4.0.0.rc1'
