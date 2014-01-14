@@ -42,7 +42,7 @@ class SiteStatsController
       @displayVisitorChart(startDate, endDate, medium)
       @displayMediaTable(startDate, endDate, medium)
     catch e
-      console.log "SiteStatsController: error parsing date [startDate: #{startDate}], [endDate: #{endDate}]"
+      console.log "SiteStatsController: error parsing date [startDate: #{$("#start-date").val()}], [endDate: #{$("#end-date").val()}]"
 
   displayVisitorChart: (startDate, endDate, medium) ->
     $chart = $(".site-visitor-chart")
