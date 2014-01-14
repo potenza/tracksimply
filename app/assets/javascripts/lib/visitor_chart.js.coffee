@@ -4,7 +4,7 @@ class VisitorsChart
     @create()
 
   setMax: ->
-    @max = Math.max.apply(this, @visits.map((visit) -> parseInt(visit[1])))
+    @max = Math.max.apply @, @visits.map((visit) -> parseInt(visit[1]))
     @max = 3 if @max == 0
 
   create: ->
