@@ -34,7 +34,7 @@ class MediaChart
       medium: medium,
       visits: relation.joins(:visits).where("visits.created_at" => date_range).count,
       conversions: relation.joins(:conversions).where("conversions.created_at" => date_range).count,
-      cost: relation.joins(:expenses).where("expenses.created_at" => date_range).sum(:amount),
+      cost: relation.joins(:expenses).where("expenses.paid_at" => date_range).sum(:amount),
       revenue: relation.joins(:conversions).where("conversions.created_at" => date_range).sum(:revenue)
     }
   end

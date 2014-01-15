@@ -1,5 +1,5 @@
 one:
   tracking_link: one
   visit: one
-  paid_at: 2014-01-10 15:29:43
+  paid_at: <%= Time.zone.today - 1.week %>
   amount: 0.50
