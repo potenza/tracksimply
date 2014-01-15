@@ -27,11 +27,11 @@ class Api::SitesControllerTest < ActionController::TestCase
     stats = response.first
 
     assert_equal TrackingLink::MEDIA.first, stats["medium"]
-    assert_equal 0, stats["visits"]
-    assert_equal 0, stats["conversions"]
-    assert_equal 0, stats["conversion_rate"]
-    assert_equal 0.0, stats["cost"].to_f
-    assert_equal 0.0, stats["revenue"].to_f
-    assert_equal 0.0, stats["profit"].to_f
+    assert_equal 1, stats["visits"]
+    assert_equal 1, stats["conversions"]
+    assert_equal 100, stats["conversion_rate"]
+    assert_equal 0.50, stats["cost"].to_f
+    assert_equal 9.99, stats["revenue"].to_f
+    assert_equal 9.49, stats["profit"].to_f
   end
 end

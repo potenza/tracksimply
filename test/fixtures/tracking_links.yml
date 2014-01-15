@@ -1,8 +1,26 @@
 one:
   site: one
+  medium: Paid Search
   landing_page_url: http://www.my-website.com
   campaign: My Campaign
   source: My Source
-  medium: My Medium
   ad_content: My Ad Content
   token: 053c85
+
+monthly:
+  site: one
+  medium: Display Ads (Banner Ads)
+  landing_page_url: http://www.my-website.com
+  campaign: My Campaign
+  source: My Source
+  ad_content: My Ad Content
+  token: 2b9098
+
+onetime:
+  site: one
+  medium: Social Media
+  landing_page_url: http://www.my-website.com
+  campaign: My Campaign
+  source: My Source
+  ad_content: My Ad Content
+  token: c3927e

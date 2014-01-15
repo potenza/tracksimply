@@ -4,7 +4,7 @@ class Visit < ActiveRecord::Base
   belongs_to :tracking_link
   has_one :conversion
 
-  after_create :spawn_visit_worker
+  after_create :spawn_worker
 
   def notify_tracking_link
     tracking_link.process_new_visit(self)
@@ -12,7 +12,7 @@ class Visit < ActiveRecord::Base
 
   private
 
-  def spawn_visit_worker
+  def spawn_worker
     VisitWorker.perform_async(id)
   end
 end

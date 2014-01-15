@@ -13,7 +13,16 @@ class OneTimeCostTest < ActiveSupport::TestCase
     assert_equal ["can't be blank"], @cost.errors[:start_date]
   end
 
-  test "#visit_cost returns 0" do
-    assert_equal 0.00, @cost.visit_cost
+  test "#visit_cost returns nil" do
+    assert_nil @cost.visit_cost
+  end
+
+  test "#charges returns array containing a single charge" do
+    charges = @cost.charges
+    assert_equal 1, charges.length
+
+    charge = charges.first
+    assert_equal @cost.amount, charge.amount
+    assert_equal @cost.start_date, charge.date
   end
 end

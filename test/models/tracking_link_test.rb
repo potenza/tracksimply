@@ -61,4 +61,32 @@ class TrackingLinkTest < ActiveSupport::TestCase
     assert_equal Time.zone.today, tracking_link.expenses.first.paid_at.to_date
     assert_equal visit.id, tracking_link.expenses.first.visit_id
   end
+
+  test "#generate_expense_records doesn't generate anything for ppc tracking links" do
+    tracking_link = tracking_links(:one)
+
+    tracking_link.expenses.destroy_all
+    tracking_link.generate_expense_records
+    assert_equal 0, tracking_link.expenses.length
+  end
+
+  test "#generate_expense_records generates monthly expense records" do
+    tracking_link = tracking_links(:monthly)
+
+    tracking_link.expenses.destroy_all
+    tracking_link.generate_expense_records
+    assert_equal 1, tracking_link.expenses.length
+    assert_equal 25.00, tracking_link.expenses.sum(:amount).to_f
+    assert_equal Time.zone.today, tracking_link.expenses.first.paid_at.to_date
+  end
+
+  test "#generate_expense_records generates one-time expense records" do
+    tracking_link = tracking_links(:onetime)
+
+    tracking_link.expenses.destroy_all
+    tracking_link.generate_expense_records
+    assert_equal 1, tracking_link.expenses.length
+    assert_equal 50.00, tracking_link.expenses.sum(:amount).to_f
+    assert_equal Time.zone.today, tracking_link.expenses.first.paid_at.to_date
+  end
 end

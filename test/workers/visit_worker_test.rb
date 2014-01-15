@@ -1,7 +1,6 @@
 require "test_helper"
 
 class VisitWorkerTest < ActiveSupport::TestCase
-
   test "perform" do
     visit = Visit.new
     visit.expects(:notify_tracking_link)

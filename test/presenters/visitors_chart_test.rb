@@ -20,7 +20,7 @@ class VisitorsChartTest < ActiveSupport::TestCase
 
   test "returns a single day's visits and conversions for a particular medium" do
     expected = {:visits=>[[Time.zone.today.strftime("%Q").to_i, 1]], :conversions=>[[Time.zone.today.strftime("%Q").to_i, 1]]}
-    data = @chart.query(Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "My Medium")
+    data = @chart.query(Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "Paid Search")
     assert_equal expected, data
 
     expected = {:visits=>[[Time.zone.today.strftime("%Q").to_i, 0]], :conversions=>[[Time.zone.today.strftime("%Q").to_i, 0]]}

@@ -1,4 +1,6 @@
 class Cost < ActiveRecord::Base
+  Charge = Struct.new(:amount, :date)
+
   TYPES = [
     ['Pay Per Click', "PayPerClickCost"],
     ['Monthly Payment', "MonthlyCost"],
@@ -10,6 +12,10 @@ class Cost < ActiveRecord::Base
   belongs_to :tracking_link
 
   def visit_cost
-    0.00
+    nil
+  end
+
+  def charges
+    []
   end
 end

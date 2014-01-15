@@ -1,18 +1,23 @@
-Testing
-
-  - test coffeescript (figure out qunit)
-
-    app/assets/javascripts/controllers
-    app/assets/javascripts/lib
-
 Expenses
 
-  - auto create expense records for Tracking Links with One-Time Payment or Monthly Payment
+  - script to update tracking link expenses daily
 
   - overwrite daily spend records for any tracking link that has been updated via CSV upload or through the Adwords API (this task will take a few days)
+
+Testing Coffeescript (Qunit?)
+
+  - app/assets/javascripts/controllers
+
+  - app/assets/javascripts/lib
+
+Sites
+
+  - move "Delete Site" into edit screen
 
 Charts
 
   - sites#show: when a particular medium is selected, the media chart should show tracking link stats for that medium
 
   - sites#show: hyperlink the medium in the media chart
+
+  - sites#show: add totals to the media chart

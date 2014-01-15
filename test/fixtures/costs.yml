@@ -1,13 +1,16 @@
 ppc:
-  type: PayPerClickCost
   tracking_link: one
+  type: PayPerClickCost
   amount: 0.50
 
 monthly:
+  tracking_link: monthly
   type: MonthlyCost
   amount: 25.00
   start_date: <%= Time.zone.today.to_s(:db) %>
 
 onetime:
+  tracking_link: onetime
   type: OneTimeCost
   amount: 50.00
+  start_date: <%= Time.zone.today.to_s(:db) %>
