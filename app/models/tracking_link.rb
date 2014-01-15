@@ -33,7 +33,7 @@ class TrackingLink < ActiveRecord::Base
       expenses.create(
         visit: visit,
         amount: amount,
-        paid_at: Time.now
+        paid_at: Time.zone.today
       )
     end
   end
