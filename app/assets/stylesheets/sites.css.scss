@@ -22,6 +22,17 @@
 }
 .site-media-table {
   margin-bottom: 40px;
+  .money {
+    text-align: right;
+  }
+  .positive {
+    font-weight: bold;
+    color: #090;
+  }
+  .negative {
+    font-weight: bold;
+    color: #900;
+  }
 }
 .site-conversion-code {
   form {

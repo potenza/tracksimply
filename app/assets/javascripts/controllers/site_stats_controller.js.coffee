@@ -53,9 +53,25 @@ class SiteStatsController
     $table = $(".site-media-table")
     $body = $(".site-media-table tbody")
     $body.empty()
-    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate, medium: medium }, (data) ->
+    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate, medium: medium }, (data) =>
       tpl = $("#site-medium-template").html()
       $body.append(tmpl(tpl, stats)) for stats in data
+      @formatMoney()
+
+  formatMoney: ->
+    for elem in $("td.money")
+      $elem = $(elem)
+      $elem.text(accounting.formatMoney($elem.text()))
+
+    for elem in $("td.profit")
+      $elem = $(elem)
+      $elem.removeClass("positive,negative")
+      if $elem.text() == "$0.00"
+        # don't do anything
+      else if $elem.text().match /\$-/
+        $elem.addClass("negative")
+      else
+        $elem.addClass("positive")
 
   dateRangeShortcut: (shortcut) ->
     if shortcut == "today"

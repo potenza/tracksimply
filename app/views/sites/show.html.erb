@@ -54,9 +54,9 @@
       <th>Visits</td>
       <th>Conversions</td>
       <th>Conversion Rate</td>
-      <th>Cost</td>
-      <th>Revenue</td>
-      <th>Profit</td>
+      <th class="money">Cost</td>
+      <th class="money">Revenue</td>
+      <th class="money">Profit</td>
     </tr>
   </thead>
   <tbody></tbody>
@@ -68,8 +68,8 @@
     <td><%%= visits %></td>
     <td><%%= conversions %></td>
     <td><%%= conversion_rate %>%</td>
-    <td>$<%%= cost %></td>
-    <td>$<%%= revenue %></td>
-    <td>$<%%= profit %></td>
+    <td class="money">$<%%= cost %></td>
+    <td class="money">$<%%= revenue %></td>
+    <td class="money profit">$<%%= profit %></td>
   </tr>
 </script>
