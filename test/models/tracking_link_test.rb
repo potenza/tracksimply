@@ -48,6 +48,17 @@ class TrackingLinkTest < ActiveSupport::TestCase
   end
 
   test "#to_s returns token" do
-    assert_equal "053c8581", tracking_links(:one).to_s
+    assert_equal "053c85", tracking_links(:one).to_s
+  end
+
+  test "#process_new_visit generates an appropriate expense record" do
+    tracking_link = tracking_links(:one)
+    visit = visits(:one)
+
+    tracking_link.expenses.destroy_all
+    tracking_link.process_new_visit(visit)
+    assert_equal 0.50, tracking_link.expenses.sum(:amount).to_f
+    assert_equal Time.zone.today, tracking_link.expenses.first.paid_at.to_date
+    assert_equal visit.id, tracking_link.expenses.first.visit_id
   end
 end

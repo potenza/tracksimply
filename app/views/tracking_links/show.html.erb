@@ -30,7 +30,7 @@
   <% if @tracking_link.cost %>
     <tr>
       <th>Cost</th>
-      <td><%= number_to_currency @tracking_link.cost %> (<%= @tracking_link.cost_type %>)</td>
+      <td><%= number_to_currency @tracking_link.cost.amount %> (<%= @tracking_link.cost %>)</td>
     </tr>
   <% end %>
 </table>

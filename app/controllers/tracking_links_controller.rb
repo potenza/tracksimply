@@ -7,6 +7,7 @@ class TrackingLinksController < ApplicationController
 
   def new
     @tracking_link = TrackingLink.new(landing_page_url: "http://")
+    @tracking_link.build_cost
   end
 
   def create
@@ -48,6 +49,6 @@ class TrackingLinksController < ApplicationController
   end
 
   def tracking_link_params
-    params.require(:tracking_link).permit(:landing_page_url, :campaign, :source, :medium, :ad_content, :token, :sid, :cost_type, :cost)
+    params.require(:tracking_link).permit(:landing_page_url, :campaign, :source, :medium, :ad_content, :token, cost_attributes: [:_destroy, :id, :type, :amount, :start_date, :end_date])
   end
 end

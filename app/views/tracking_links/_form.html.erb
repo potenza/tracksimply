@@ -1,4 +1,8 @@
-<%= bootstrap_form_for [site, tracking_link], style: :horizontal, left: "col-md-2", right: "col-md-5" do |f| %>
+<% content_for :javascript do %>
+  <%= javascript_tag "App.TrackingLinkController.setup();" %>
+<% end %>
+
+<%= bootstrap_form_for [site, tracking_link], style: :horizontal, left: "col-md-2", right: "col-md-5", html: { id: "tracking_link_form" } do |f| %>
   <%= f.alert_message "Please fix the errors below" %>
 
   <%= f.select :medium, TrackingLink::MEDIA %>
@@ -7,13 +11,35 @@
   <%= f.text_field :source, help: "Examples: Google, Facebook, Blog, Newsletter" %>
   <%= f.text_field :ad_content, help: "Example: Buy One, Get One Free" %>
 
-  <hr>
-  <%= f.form_group do %>
-    <p><span class="label label-warning">OPTIONAL</span> Track the cost of your ad. You can also upload spend reports later for exact figures.</p>
+  <% if tracking_link.cost %>
+    <hr>
+    <%= f.form_group do %>
+      <p><span class="label label-warning">OPTIONAL</span> Track the cost of your ad. You can also upload cost reports later for exact figures.</p>
+    <% end %>
+
+    <%= f.fields_for :cost do |cost_f| %>
+      <% if tracking_link.persisted? %>
+        <%= cost_f.hidden_field :type %>
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="user_email">Type</label>
+          <div class="col-md-5">
+            <p class="form-control-static"><%= cost_f.object %></p>
+          </div>
+        </div>
+      <% else %>
+        <%= cost_f.hidden_field :_destroy, value: "1" %>
+        <%= cost_f.select :type, Cost::TYPES, include_blank: true %>
+      <% end %>
+      <%= cost_f.text_field :amount, prepend: "$" %>
+      <div id="monthly-cost-start-date" class="hide">
+        <%= cost_f.text_field :start_date, class: "datepicker", prepend: gicon("calendar") %>
+      </div>
+      <div id="monthly-cost-end-date" class="hide">
+        <%= cost_f.text_field :end_date, class: "datepicker", prepend: gicon("calendar"), help: "End date is optional. Leave blank for an ongoing payment." %>
+      </div>
+    <% end %>
+    <hr>
   <% end %>
-  <%= f.select :cost_type, TrackingLink::COST_TYPES %>
-  <%= f.text_field :cost, prepend: "$" %>
-  <hr>
 
   <%= f.form_group do %>
     <%= f.primary %>

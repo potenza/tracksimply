@@ -25,5 +25,6 @@ Rails.application.routes.draw do
     resources :visits
     resources :conversions
   end
+
   get 'r/:token', to: 'track/visits#new'
 end

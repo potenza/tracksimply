@@ -1,6 +1,6 @@
 class SiteStatsController
   setup: ->
-    @destroyEventHandlers() # kill off any existing event handlers
+    @destroyEventHandlers()
     @setEventHandlers()
     @setDefaultDates()
 

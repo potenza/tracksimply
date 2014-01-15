@@ -14,12 +14,14 @@ gem 'spring', group: :development
 gem 'bcrypt-ruby', '~> 3.1.2'
 gem 'unicorn'
 
+gem 'sidekiq'
 gem 'bootstrap-sass'
 gem 'bourbon'
 gem 'bootstrap_form', git: 'git://github.com/potenza/bootstrap_form.git', branch: 'rails-4.1.0'
 gem 'bootstrap-datepicker-rails'
 
 group :test do
+  gem "mocha", require: false
   gem 'capybara'
   gem 'poltergeist'
   gem 'simplecov'

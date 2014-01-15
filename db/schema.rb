@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140114020635) do
+ActiveRecord::Schema.define(version: 20140115004420) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,12 +26,25 @@ ActiveRecord::Schema.define(version: 20140114020635) do
 
   add_index "conversions", ["visit_id"], name: "index_conversions_on_visit_id", using: :btree
 
+  create_table "costs", force: true do |t|
+    t.string   "type"
+    t.integer  "tracking_link_id"
+    t.decimal  "amount",           precision: 10, scale: 2
+    t.date     "start_date"
+    t.date     "end_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "costs", ["tracking_link_id"], name: "index_costs_on_tracking_link_id", using: :btree
+
   create_table "expenses", force: true do |t|
     t.integer  "tracking_link_id"
     t.datetime "paid_at"
     t.decimal  "amount",           precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "visit_id"
   end
 
   add_index "expenses", ["tracking_link_id"], name: "index_expenses_on_tracking_link_id", using: :btree
@@ -50,9 +63,6 @@ ActiveRecord::Schema.define(version: 20140114020635) do
     t.string   "medium"
     t.string   "ad_content"
     t.string   "token"
-    t.string   "sid"
-    t.string   "cost_type"
-    t.decimal  "cost",             precision: 10, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end
