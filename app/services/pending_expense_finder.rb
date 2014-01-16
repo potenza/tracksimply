@@ -1,5 +1,5 @@
 class PendingExpenseFinder
-  PendingExpense = Struct.new(:amount, :date)
+  PendingExpense = Struct.new(:amount, :datetime)
 
   attr_reader :charges, :expenses
 
@@ -12,8 +12,8 @@ class PendingExpenseFinder
 
   def find
     charges.collect do |charge|
-      if expenses.where(paid_at: charge.date).count == 0
-        PendingExpense.new(charge.amount, charge.date)
+      if expenses.where(paid_at: charge.datetime).count == 0
+        PendingExpense.new(charge.amount, charge.datetime)
       end
     end
   end

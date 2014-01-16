@@ -23,6 +23,6 @@ class OneTimeCostTest < ActiveSupport::TestCase
 
     charge = charges.first
     assert_equal @cost.amount, charge.amount
-    assert_equal @cost.start_date, charge.date
+    assert_equal @cost.start_date.beginning_of_day, charge.datetime
   end
 end

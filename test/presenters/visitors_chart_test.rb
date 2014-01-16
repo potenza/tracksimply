@@ -6,10 +6,10 @@ class VisitorsChartTest < ActiveSupport::TestCase
     @chart = VisitorsChart.new(site)
   end
 
-  test "defaults to last 30 days of visits and conversions" do
-    data = @chart.query("crap", "crap")
-    assert_equal 30, data[:visits].length
-    assert_equal 30, data[:conversions].length
+  test "bad dates will raise an exception" do
+    assert_raises ArgumentError do
+      data = @chart.query("crap", "crap")
+    end
   end
 
   test "returns a single day's visits and conversions" do

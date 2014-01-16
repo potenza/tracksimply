@@ -6,6 +6,6 @@ class OneTimeCost < Cost
   end
 
   def charges
-    [Charge.new(amount, start_date)]
+    [Charge.new(amount, start_date.beginning_of_day)]
   end
 end

@@ -12,7 +12,7 @@ class PendingExpenseFinderTest < ActiveSupport::TestCase
     pending_expenses = PendingExpenseFinder.new(tracking_link.cost.charges, tracking_link.expenses).find
 
     pending_expense = pending_expenses.first
-    assert_equal pending_expense.amount, 25.00
-    assert_equal pending_expense.date, Time.zone.today
+    assert_equal 25.00, pending_expense.amount, 25.00
+    assert_equal Time.zone.today.beginning_of_day, pending_expense.datetime
   end
 end

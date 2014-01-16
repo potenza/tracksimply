@@ -12,7 +12,7 @@ class Api::SitesControllerTest < ActionController::TestCase
   end
 
   test "#visitors_chart" do
-    get :visitors_chart, id: sites(:one).id
+    get :visitors_chart, id: sites(:one).id, start_date: Time.zone.today, end_date: Time.zone.today
     assert_response :success
 
     assert_match /visits/, @response.body
@@ -20,7 +20,7 @@ class Api::SitesControllerTest < ActionController::TestCase
   end
 
   test "#media_chart" do
-    get :media_chart, id: sites(:one).id
+    get :media_chart, id: sites(:one).id, start_date: Time.zone.today, end_date: Time.zone.today
     assert_response :success
 
     response = JSON.parse(@response.body)

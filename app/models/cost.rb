@@ -1,5 +1,5 @@
 class Cost < ActiveRecord::Base
-  Charge = Struct.new(:amount, :date)
+  Charge = Struct.new(:amount, :datetime)
 
   TYPES = [
     ['Pay Per Click', "PayPerClickCost"],

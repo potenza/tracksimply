@@ -5,21 +5,16 @@ module Chart
     end
   end
 
-  def initialize(site, time_zone: "UTC")
+  def initialize(site, time_zone: Rails.application.config.time_zone)
     @site = site
     @time_zone = time_zone
   end
 
   private
 
+  # assumes start_date & end_date are strings
   def parse_dates(start_date, end_date)
     @start_date = Date.parse(start_date)
     @end_date = Date.parse(end_date)
-  rescue
-    # default to last 30 days
-    Time.use_zone(time_zone) do
-      @start_date = Time.zone.today - 29
-      @end_date = Time.zone.today
-    end
   end
 end

@@ -33,7 +33,7 @@ class TrackingLink < ActiveRecord::Base
       expenses.create(
         visit: visit,
         amount: amount,
-        paid_at: Time.zone.today
+        paid_at: Time.zone.now.beginning_of_day
       )
     end
   end
@@ -42,7 +42,7 @@ class TrackingLink < ActiveRecord::Base
     pending_expenses.each do |pending_expense|
       expenses.create(
         amount: pending_expense.amount,
-        paid_at: pending_expense.date
+        paid_at: pending_expense.datetime
       )
     end
   end

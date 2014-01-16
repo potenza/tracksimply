@@ -3,7 +3,7 @@ one:
   password_digest: $2a$10$yaDsVg/rD5RveRmrfuP0EuHnC/nlr601SBGsRCamWGpcOrjsLhdkO
   first_name: John
   last_name: Smith
-  time_zone: UTC
+  time_zone: Pacific Time (US & Canada)
   admin: true
   auth_token: john-auth-token
 
@@ -12,6 +12,6 @@ two:
   password_digest: $2a$10$yaDsVg/rD5RveRmrfuP0EuHnC/nlr601SBGsRCamWGpcOrjsLhdkO
   first_name: Jane
   last_name: Smith
-  time_zone: UTC
+  time_zone: Pacific Time (US & Canada)
   admin: false
   auth_token: jane-auth-token

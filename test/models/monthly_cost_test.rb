@@ -24,10 +24,10 @@ class MonthlyCostTest < ActiveSupport::TestCase
 
     expense = charges.first
     assert_equal @cost.amount, expense.amount
-    assert_equal Time.zone.today - 2.months, expense.date
+    assert_equal (Time.zone.today - 2.months).beginning_of_day, expense.datetime
 
     expense = charges.last
     assert_equal @cost.amount, expense.amount
-    assert_equal Time.zone.today, expense.date
+    assert_equal Time.zone.today.beginning_of_day, expense.datetime
   end
 end

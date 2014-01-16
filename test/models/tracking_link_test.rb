@@ -58,7 +58,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
     tracking_link.expenses.destroy_all
     tracking_link.process_new_visit(visit)
     assert_equal 0.50, tracking_link.expenses.sum(:amount).to_f
-    assert_equal Time.zone.today, tracking_link.expenses.first.paid_at.to_date
+    assert_equal Time.zone.now.beginning_of_day, tracking_link.expenses.first.paid_at
     assert_equal visit.id, tracking_link.expenses.first.visit_id
   end
 
@@ -77,7 +77,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
     tracking_link.generate_expense_records
     assert_equal 1, tracking_link.expenses.length
     assert_equal 25.00, tracking_link.expenses.sum(:amount).to_f
-    assert_equal Time.zone.today, tracking_link.expenses.first.paid_at.to_date
+    assert_equal Time.zone.now.beginning_of_day, tracking_link.expenses.first.paid_at
   end
 
   test "#generate_expense_records generates one-time expense records" do
@@ -87,6 +87,6 @@ class TrackingLinkTest < ActiveSupport::TestCase
     tracking_link.generate_expense_records
     assert_equal 1, tracking_link.expenses.length
     assert_equal 50.00, tracking_link.expenses.sum(:amount).to_f
-    assert_equal Time.zone.today, tracking_link.expenses.first.paid_at.to_date
+    assert_equal Time.zone.now.beginning_of_day, tracking_link.expenses.first.paid_at
   end
 end

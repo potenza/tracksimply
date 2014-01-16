@@ -11,7 +11,7 @@ class MonthlyCost < Cost
     final_date = end_date || Time.zone.today
 
     while current_date <= final_date
-      charges << Charge.new(amount, current_date)
+      charges << Charge.new(amount, current_date.beginning_of_day)
       current_date += 1.month
     end
 
