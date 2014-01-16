@@ -5,7 +5,7 @@ module Chart
     end
   end
 
-  def initialize(site, time_zone: Rails.application.config.time_zone)
+  def initialize(site, time_zone)
     @site = site
     @time_zone = time_zone
   end

@@ -3,7 +3,7 @@ require 'test_helper'
 class VisitorsChartTest < ActiveSupport::TestCase
   setup do
     site = sites(:one)
-    @chart = VisitorsChart.new(site)
+    @chart = VisitorsChart.new(site, users(:one).time_zone)
   end
 
   test "bad dates will raise an exception" do

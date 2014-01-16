@@ -3,7 +3,7 @@ require 'test_helper'
 class MediaChartTest < ActiveSupport::TestCase
   setup do
     site = sites(:one)
-    @chart = MediaChart.new(site)
+    @chart = MediaChart.new(site, users(:one).time_zone)
   end
 
   test "returns stats for a single medium" do

@@ -13,6 +13,7 @@
         <th>Campaign</th>
         <th>Source</th>
         <th>Ad Content</th>
+        <th>Cost</th>
       </tr>
     </thead>
     <tbody>
@@ -23,6 +24,7 @@
           <td><%= tracking_link.campaign %></td>
           <td><%= tracking_link.source %></td>
           <td><%= tracking_link.ad_content %></td>
+          <td><%= tracking_link.cost if tracking_link.cost %></td>
         </tr>
       <% end %>
     </tbody>
