@@ -24,7 +24,11 @@
           <td><%= tracking_link.campaign %></td>
           <td><%= tracking_link.source %></td>
           <td><%= tracking_link.ad_content %></td>
-          <td><%= tracking_link.cost if tracking_link.cost %></td>
+          <td>
+            <% if tracking_link.cost %>
+              <%= number_to_currency tracking_link.cost.amount %> (<%= tracking_link.cost %>)
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
