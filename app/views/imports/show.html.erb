@@ -1,0 +1,26 @@
+<%= title "Import" %>
+
+<%= breadcrumbs sites_path, @site, site_imports_path(@site), @import %>
+
+<% if @import.processed? %>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Tracking Link</th>
+        <th>Date</th>
+        <th>Amount</th>
+      </tr>
+    </thead>
+    <% @import.expenses.includes(:tracking_link).each do |expense| %>
+      <tr>
+        <td><%= gicon "link" %> <%= link_to expense.tracking_link.token, [@site, expense.tracking_link] %></td>
+        <td><%= expense.paid_at.to_s(:american_date) %></td>
+        <td><%= number_to_currency expense.amount %></td>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= link_to gicon("trash", "Delete Import"), site_import_path(@site, @import), method: :delete, data: { confirm: "Are you sure you want to delete this import and all the associated expenses?" }, class: "btn btn-danger" %>
+<% else %>
+  <div class="alert alert-warning imports-auto-refresh">This file is being processed.</div>
+<% end %>

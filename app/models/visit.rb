@@ -4,7 +4,7 @@ class Visit < ActiveRecord::Base
   belongs_to :tracking_link
   has_one :conversion
 
-  after_create :spawn_worker
+  after_commit :spawn_worker, on: :create
 
   def notify_tracking_link
     tracking_link.process_new_visit(self)

@@ -1,0 +1,19 @@
+<%= title "New Import" %>
+
+<%= breadcrumbs sites_path, @site, site_imports_path(@site), "New Import" %>
+
+<div class="row">
+  <div class="col-md-5">
+    <%= bootstrap_form_for [@site, @import], html: { multipart: true} do |f| %>
+      <%= f.alert_message "Please fix the errors below" %>
+
+      <%= f.select :import_format_id, @formats, { include_blank: true }, { label: "Format", help: %Q{Leave blank to setup a new format. #{link_to("Edit Formats", import_formats_path) unless @formats.empty?}}.html_safe } %>
+      <%= f.file_field :file %>
+
+      <%= f.form_group do %>
+        <%= f.primary "Upload File" %>
+        <%= link_to "Cancel", site_imports_path(@site), class: "btn btn-default" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

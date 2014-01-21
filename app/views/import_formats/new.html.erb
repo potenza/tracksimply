@@ -1,0 +1,36 @@
+<%= title "New Import Format" %>
+
+<%= breadcrumbs import_formats_path, "New Import Format" %>
+
+<div class="alert alert-block alert-info">
+  <p>Below are the first 10 lines of the file you imported. Please select the Date, Destination URL, and Cost columns.</p>
+</div>
+
+<%= bootstrap_form_for @import_format do |f| %>
+  <%= f.alert_message "Please fix the following errors and ensure that you've selected Date, Destination URL, and Cost columns" %>
+
+  <%= hidden_field_tag :import_id, params[:import_id] %>
+  <div class="row">
+    <div class="col-md-5">
+      <%= f.text_field :file_type, help: "Example: Adwords CSV" %>
+    </div>
+  </div>
+
+  <table class="table table-bordered">
+    <tr>
+      <% @import.first_line.each_with_index do |cell, i| %>
+        <td><%= select_tag "[columns][#{i}]", options_for_select([["Date", "date_column"], ["Destination URL", "url_column"], ["Cost", "cost_column"]]), include_blank: true %></td>
+      <% end %>
+    <tr>
+    <% @import.preview.each do |line| %>
+      <tr>
+        <% line.each do |cell| %>
+          <td><%= cell %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </table>
+
+  <%= f.primary "Save Format" %>
+  <%= link_to "Cancel and Delete Import", site_import_path(@site, @import), method: :delete, data: { confirm: "Are you sure you want to delete this import?" }, class: "btn btn-danger" %>
+<% end %>

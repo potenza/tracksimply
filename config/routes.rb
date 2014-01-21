@@ -5,9 +5,11 @@ Rails.application.routes.draw do
   get 'logout' => 'sessions#destroy', as: 'logout'
 
   # front end
+  resources :import_formats, except: [:show, :edit, :update]
   resource :session, only: [:new, :create, :destroy]
   resources :sites do
     member { get :pixel }
+    resources :imports, except: [:edit, :update]
     resources :tracking_links
   end
   resources :users, except: [:show]
@@ -27,4 +29,9 @@ Rails.application.routes.draw do
   end
 
   get 'r/:token', to: 'track/visits#new'
+
+  if Rails.env.development?
+    require 'sidekiq/web'
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end

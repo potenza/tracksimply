@@ -21,7 +21,7 @@ class TrackingLink < ActiveRecord::Base
   validates :ad_content, presence: true
 
   before_create :set_token
-  after_create :spawn_worker
+  after_commit :spawn_worker, on: :create
 
   def to_s
     token
@@ -32,17 +32,26 @@ class TrackingLink < ActiveRecord::Base
     if amount
       expenses.create(
         visit: visit,
-        amount: amount,
-        paid_at: Time.zone.now.beginning_of_day
+        paid_at: Time.zone.now.beginning_of_day,
+        amount: amount
       )
     end
+  end
+
+  def overwrite_expenses_for_date(import_id, paid_at, amount)
+    expenses.where(paid_at: paid_at).destroy_all
+    expenses.create(
+      import_id: import_id,
+      paid_at: paid_at,
+      amount: amount
+    )
   end
 
   def generate_expense_records
     pending_expenses.each do |pending_expense|
       expenses.create(
-        amount: pending_expense.amount,
-        paid_at: pending_expense.datetime
+        paid_at: pending_expense.datetime,
+        amount: pending_expense.amount
       )
     end
   end

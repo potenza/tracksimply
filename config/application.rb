@@ -7,7 +7,7 @@ Bundler.require(*Rails.groups)
 module Tracksimply
   class Application < Rails::Application
     # not sure why this isn't being autoloaded
-    config.autoload_paths += %W(#{config.root}/services)
+    config.autoload_paths += %W(#{config.root}/services #{config.root}/uploaders)
 
     config.time_zone = 'Pacific Time (US & Canada)'
 

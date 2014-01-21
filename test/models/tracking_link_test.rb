@@ -57,9 +57,19 @@ class TrackingLinkTest < ActiveSupport::TestCase
 
     tracking_link.expenses.destroy_all
     tracking_link.process_new_visit(visit)
-    assert_equal 0.50, tracking_link.expenses.sum(:amount).to_f
+    assert_equal 0.50, tracking_link.expenses.sum(:amount)
     assert_equal Time.zone.now.beginning_of_day, tracking_link.expenses.first.paid_at
     assert_equal visit.id, tracking_link.expenses.first.visit_id
+  end
+
+  test "#overwrite_expenses_for_date deletes existing expense records and adds a new one" do
+    tracking_link = tracking_links(:one)
+
+    assert_equal 0.50, tracking_link.expenses.sum(:amount)
+
+    tracking_link.overwrite_expenses_for_date(imports(:one).id, Time.zone.today.beginning_of_day, 49.99)
+
+    assert_equal 49.99, tracking_link.expenses.sum(:amount)
   end
 
   test "#generate_expense_records doesn't generate anything for ppc tracking links" do
@@ -76,7 +86,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
     tracking_link.expenses.destroy_all
     tracking_link.generate_expense_records
     assert_equal 1, tracking_link.expenses.length
-    assert_equal 25.00, tracking_link.expenses.sum(:amount).to_f
+    assert_equal 25.00, tracking_link.expenses.sum(:amount)
     assert_equal Time.zone.now.beginning_of_day, tracking_link.expenses.first.paid_at
   end
 
@@ -86,7 +96,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
     tracking_link.expenses.destroy_all
     tracking_link.generate_expense_records
     assert_equal 1, tracking_link.expenses.length
-    assert_equal 50.00, tracking_link.expenses.sum(:amount).to_f
+    assert_equal 50.00, tracking_link.expenses.sum(:amount)
     assert_equal Time.zone.now.beginning_of_day, tracking_link.expenses.first.paid_at
   end
 end

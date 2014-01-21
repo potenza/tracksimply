@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140116001116) do
+ActiveRecord::Schema.define(version: 20140121035717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,9 +45,34 @@ ActiveRecord::Schema.define(version: 20140116001116) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "visit_id"
+    t.integer  "import_id"
   end
 
+  add_index "expenses", ["import_id"], name: "index_expenses_on_import_id", using: :btree
   add_index "expenses", ["tracking_link_id"], name: "index_expenses_on_tracking_link_id", using: :btree
+
+  create_table "import_formats", force: true do |t|
+    t.string   "file_type"
+    t.integer  "date_column"
+    t.integer  "url_column"
+    t.integer  "cost_column"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "imports", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.integer  "import_format_id"
+    t.string   "name"
+    t.string   "file"
+    t.datetime "processed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "imports", ["site_id"], name: "index_imports_on_site_id", using: :btree
+  add_index "imports", ["user_id"], name: "index_imports_on_user_id", using: :btree
 
   create_table "sites", force: true do |t|
     t.string   "name"

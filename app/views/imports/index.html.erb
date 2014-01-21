@@ -1,0 +1,46 @@
+<%= title "Imports" %>
+
+<%= breadcrumbs sites_path, @site, "Imports" %>
+
+<% if @imports.empty? %>
+  <div class="alert alert-warning">No imports found.</div>
+<% else %>
+  <table class="table">
+    <% @imports.each do |import| %>
+      <tr>
+        <td>
+          <%= link_to import.name, site_import_path(@site, import) %>
+          <% if import.processed? %>
+            <span class="label label-success">Imported</span>
+          <% else %>
+            <% if import.import_format %>
+              <span class="label label-warning">Processing</span>
+            <% else %>
+              <span class="label label-danger">Needs Attention</span>
+            <% end %>
+          <% end %>
+        </td>
+          <% if import.processed? %>
+            <td class="text-muted">
+              <%= import.file_name %>
+            </td>
+            <td class="text-muted">
+              <% if import.first_date && import.last_date %>
+                <%= import.first_date.to_s(:american_date) %> - <%= import.last_date.to_s(:american_date) %>
+              <% end %>
+            </td>
+            <td class="text-muted txtr">
+              <%= number_to_currency import.total if import.total > 0 %>
+            </td>
+          <% else %>
+            <td></td>
+            <td></td>
+            <td></td>
+          <% end %>
+        <td class="text-muted txtr"><%= time_ago_in_words import.created_at %> ago by <%= import.user.name %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<%= link_to "New Import", new_site_import_path(@site), class: "btn btn-primary" %>

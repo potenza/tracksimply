@@ -1,0 +1,31 @@
+<%= title "Import Formats" %>
+
+<%= breadcrumbs "Import Formats" %>
+
+<% if @import_formats.empty? %>
+  <div class="alert alert-block alert-warning">
+    <h4>No import formats found.</h4>
+    <p>To add an import format, go to a Site, then click "Cost Imports" and upload a new file.</p>
+  </div>
+<% else %>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>File Type</th>
+        <th>Date Column</th>
+        <th>URL Column</th>
+        <th>Cost Column</th>
+        <th></th>
+      </tr>
+    </thead>
+    <% @import_formats.each do |import_format| %>
+      <tr>
+        <td><%= import_format.file_type %></td>
+        <td class="text-muted"><%= import_format.date_column %></td>
+        <td class="text-muted"><%= import_format.url_column %></td>
+        <td class="text-muted"><%= import_format.cost_column %></td>
+        <td class="txtr"><%= link_to gicon("trash", "Delete"), import_format_path(import_format), method: :delete, data: { confirm: "Are you sure you want to delete this import format?" }, class: "btn btn-danger btn-sm" %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

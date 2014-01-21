@@ -1,0 +1,5 @@
+one:
+  file_type: Adwords CSV
+  date_column: 0
+  url_column: 6
+  cost_column: 17
