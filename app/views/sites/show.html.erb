@@ -51,13 +51,17 @@
 <table class="table site-media-table" data-url="<%= media_chart_api_site_path(@site) %>">
   <thead>
     <tr>
-      <th>Medium</td>
-      <th>Visits</td>
-      <th>Conversions</td>
-      <th>Conversion Rate</td>
-      <th class="money">Cost</td>
-      <th class="money">Revenue</td>
-      <th class="money">Profit</td>
+      <th>Medium</th>
+      <th>Visits</th>
+      <th>Conversions</th>
+      <th>Conversion Rate</th>
+      <th class="money">Cost</th>
+      <th class="money">Revenue</th>
+      <th class="money">Profit</th>
+      <th class="money"><span data-toggle="tooltip" title="Cost Per Visit">CPV <%= gicon "info-sign" %></span></th>
+      <th class="money"><span data-toggle="tooltip" title="Revenue Per Visit">RPV <%= gicon "info-sign" %></span></th>
+      <th class="money"><span data-toggle="tooltip" title="Customer Acquisition Cost">CAC <%= gicon "info-sign" %></span></th>
+      <th class="money"><span data-toggle="tooltip" title="Revenue Per User">RPU <%= gicon "info-sign" %></span></th>
     </tr>
   </thead>
   <tbody></tbody>
@@ -72,5 +76,9 @@
     <td class="money">$<%%= cost %></td>
     <td class="money">$<%%= revenue %></td>
     <td class="money profit">$<%%= profit %></td>
+    <td class="money">$<%%= cost_per_visit %></td>
+    <td class="money">$<%%= revenue_per_visit %></td>
+    <td class="money">$<%%= cost_per_conversion %></td>
+    <td class="money">$<%%= revenue_per_conversion %></td>
   </tr>
 </script>

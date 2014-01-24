@@ -22,8 +22,9 @@ class MediaChart
   def generate_stats
     media.collect do |medium|
       stats = medium_stats(medium)
-      stats[:conversion_rate] = stats[:visits] > 0 && (stats[:conversions].to_f / stats[:visits].to_f * 100).round(2) || 0
-      stats[:profit] = stats[:revenue] - stats[:cost]
+      calculate_profit!(stats)
+      calculate_visit_stats!(stats)
+      calculate_conversion_stats!(stats)
       stats
     end
   end
@@ -37,5 +38,26 @@ class MediaChart
       cost: relation.joins(:expenses).where("expenses.paid_at" => date_range).sum(:amount),
       revenue: relation.joins(:conversions).where("conversions.created_at" => date_range).sum(:revenue)
     }
+  end
+
+  def calculate_profit!(stats)
+    stats[:profit] = stats[:revenue] - stats[:cost]
+  end
+
+  def calculate_visit_stats!(stats)
+    stats[:conversion_rate] = stats[:cost_per_visit] = stats[:revenue_per_visit] = 0
+    if stats[:visits] > 0
+      stats[:conversion_rate] = (stats[:conversions].to_f / stats[:visits].to_f * 100).round(2)
+      stats[:cost_per_visit] = stats[:cost] / stats[:visits]
+      stats[:revenue_per_visit] = stats[:revenue] / stats[:visits]
+    end
+  end
+
+  def calculate_conversion_stats!(stats)
+    stats[:cost_per_conversion] = stats[:revenue_per_conversion] = 0
+    if stats[:conversions] > 0
+      stats[:cost_per_conversion] = stats[:cost] / stats[:conversions]
+      stats[:revenue_per_conversion] = stats[:revenue] / stats[:conversions]
+    end
   end
 end

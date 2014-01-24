@@ -18,6 +18,10 @@ class MediaChartTest < ActiveSupport::TestCase
     assert_equal 0.50, stats[:cost]
     assert_equal 9.99, stats[:revenue]
     assert_equal 9.49, stats[:profit]
+    assert_equal 0.50, stats[:cost_per_visit]
+    assert_equal 9.99, stats[:revenue_per_visit]
+    assert_equal 0.50, stats[:cost_per_conversion]
+    assert_equal 9.99, stats[:revenue_per_conversion]
   end
 
   test "ensure cost stats are from proper date" do
@@ -35,6 +39,10 @@ class MediaChartTest < ActiveSupport::TestCase
     assert_equal 0.00, stats[:cost]
     assert_equal 9.99, stats[:revenue]
     assert_equal 9.99, stats[:profit]
+    assert_equal 0.00, stats[:cost_per_visit]
+    assert_equal 9.99, stats[:revenue_per_visit]
+    assert_equal 0.00, stats[:cost_per_conversion]
+    assert_equal 9.99, stats[:revenue_per_conversion]
   end
 
   test "returns stats for an array of media" do
