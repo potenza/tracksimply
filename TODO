@@ -20,8 +20,4 @@ Sites
 
 Charts
 
-  - sites#show: when a particular medium is selected, the media chart should show tracking link stats for that medium
-
-  - sites#show: hyperlink the medium in the media chart
-
   - sites#show: add totals to the media chart

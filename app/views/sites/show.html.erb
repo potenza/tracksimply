@@ -48,7 +48,7 @@
 
 <div class="site-visitor-chart" data-url="<%= visitors_chart_api_site_path(@site) %>"></div>
 
-<table class="table site-media-table" data-url="<%= media_chart_api_site_path(@site) %>">
+<table class="table site-media-table hide" data-url="<%= media_chart_api_site_path(@site) %>">
   <thead>
     <tr>
       <th>Medium</th>
@@ -67,9 +67,46 @@
   <tbody></tbody>
 </table>
 
-<script type="text/html" id="site-medium-template">
+<script type="text/html" id="site-media-row-template">
   <tr class="site-medium">
-    <td><%%= medium %></td>
+    <td><a href="#" data-medium="<%%= medium %>"><%%= medium %></a></td>
+    <td><%%= visits %></td>
+    <td><%%= conversions %></td>
+    <td><%%= conversion_rate %>%</td>
+    <td class="money">$<%%= cost %></td>
+    <td class="money">$<%%= revenue %></td>
+    <td class="money profit">$<%%= profit %></td>
+    <td class="money">$<%%= cost_per_visit %></td>
+    <td class="money">$<%%= revenue_per_visit %></td>
+    <td class="money">$<%%= cost_per_conversion %></td>
+    <td class="money">$<%%= revenue_per_conversion %></td>
+  </tr>
+</script>
+
+<table class="table site-medium-table hide" data-url="<%= medium_chart_api_site_path(@site) %>">
+  <thead>
+    <tr>
+      <th>Tracking Link</th>
+      <th>Ad Content</th>
+      <th>Visits</th>
+      <th>Conversions</th>
+      <th>Conversion Rate</th>
+      <th class="money">Cost</th>
+      <th class="money">Revenue</th>
+      <th class="money">Profit</th>
+      <th class="money"><span data-toggle="tooltip" title="Cost Per Visit">CPV <%= gicon "info-sign" %></span></th>
+      <th class="money"><span data-toggle="tooltip" title="Revenue Per Visit">RPV <%= gicon "info-sign" %></span></th>
+      <th class="money"><span data-toggle="tooltip" title="Customer Acquisition Cost">CAC <%= gicon "info-sign" %></span></th>
+      <th class="money"><span data-toggle="tooltip" title="Revenue Per User">RPU <%= gicon "info-sign" %></span></th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script type="text/html" id="site-medium-row-template">
+  <tr class="site-tracking-link">
+    <td><%= gicon "link" %> <a href="#" data-token="<%%= token %>"><%%= token %></a></td>
+    <td><%%= ad_content %></td>
     <td><%%= visits %></td>
     <td><%%= conversions %></td>
     <td><%%= conversion_rate %>%</td>

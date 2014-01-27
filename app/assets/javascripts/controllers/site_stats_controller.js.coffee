@@ -8,6 +8,7 @@ class SiteStatsController
     $(".date-picker").datepicker().off "changeDate"
     $(document).off "click", "[data-date-shortcut]"
     $(document).off "change", "select#medium"
+    $(document).off "click", ".site-media-table td a"
 
   setEventHandlers: ->
     $(".date-picker").datepicker(
@@ -23,6 +24,10 @@ class SiteStatsController
       e.preventDefault()
       @updateCharts()
 
+    $(document).on "click", ".site-media-table td a", (e) =>
+      e.preventDefault()
+      @selectMedium($(e.target).data("medium"))
+
   setDefaultDates: ->
     startDate = Date.today().add(-29).days()
     endDate = Date.today()
@@ -33,6 +38,10 @@ class SiteStatsController
     $("#end-date").datepicker("update", endDate.toString("MM/dd/yyyy"))
     @updateCharts()
 
+  selectMedium: (medium) ->
+    $("#medium").val(medium)
+    @updateCharts()
+
   updateCharts: =>
     $(".date-picker").datepicker("hide")
     try
@@ -40,7 +49,10 @@ class SiteStatsController
       endDate = Date.parse($("#end-date").val()).toString("yyyy-MM-dd")
       medium = $("#medium").val()
       @displayVisitorChart(startDate, endDate, medium)
-      @displayMediaTable(startDate, endDate, medium)
+      if medium
+        @displayMediumTable(medium, startDate, endDate)
+      else
+        @displayMediaTable(startDate, endDate)
     catch e
       console.log "SiteStatsController: error parsing date [startDate: #{$("#start-date").val()}], [endDate: #{$("#end-date").val()}]"
 
@@ -49,14 +61,31 @@ class SiteStatsController
     $.getJSON $chart.data("url"), { start_date: startDate, end_date: endDate, medium: medium }, (data) ->
       App.visitorsChart.setup($chart, data.visits, data.conversions)
 
-  displayMediaTable: (startDate, endDate, medium) ->
+  displayMediaTable: (startDate, endDate) ->
     $table = $(".site-media-table")
     $body = $(".site-media-table tbody")
     $body.empty()
-    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate, medium: medium }, (data) =>
-      tpl = $("#site-medium-template").html()
+    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate }, (data) =>
+      tpl = $("#site-media-row-template").html()
       $body.append(tmpl(tpl, stats)) for stats in data
-      @formatMoney()
+      @postDisplayTasks()
+      $table.removeClass("hide")
+      $(".site-medium-table").addClass("hide")
+
+  displayMediumTable: (medium, startDate, endDate) ->
+    $table = $(".site-medium-table")
+    $body = $(".site-medium-table tbody")
+    $body.empty()
+    $.getJSON $table.data("url"), { medium: medium, start_date: startDate, end_date: endDate }, (data) =>
+      tpl = $("#site-medium-row-template").html()
+      $body.append(tmpl(tpl, stats)) for stats in data
+      @postDisplayTasks()
+      $table.removeClass("hide")
+      $(".site-media-table").addClass("hide")
+
+  postDisplayTasks: ->
+    @formatMoney()
+    @enableToolTips()
 
   formatMoney: ->
     for elem in $("td.money")
@@ -72,6 +101,9 @@ class SiteStatsController
         $elem.addClass("negative")
       else
         $elem.addClass("positive")
+
+  enableToolTips: ->
+    $("[data-toggle=tooltip]").tooltip()
 
   dateRangeShortcut: (shortcut) ->
     if shortcut == "today"

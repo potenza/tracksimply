@@ -27,6 +27,23 @@ class Api::SitesControllerTest < ActionController::TestCase
     stats = response.first
 
     assert_equal TrackingLink::MEDIA.first, stats["medium"]
+    assert_equal "Paid Search", stats["medium"]
+    assert_equal 1, stats["visits"]
+    assert_equal 1, stats["conversions"]
+    assert_equal 100, stats["conversion_rate"]
+    assert_equal 0.50, stats["cost"].to_f
+    assert_equal 9.99, stats["revenue"].to_f
+    assert_equal 9.49, stats["profit"].to_f
+  end
+
+  test "#medium_chart" do
+    get :medium_chart, id: sites(:one).id, medium: TrackingLink::MEDIA.first, start_date: Time.zone.today, end_date: Time.zone.today
+    assert_response :success
+
+    response = JSON.parse(@response.body)
+    stats = response.first
+
+    assert_equal tracking_links(:one).token, stats["token"]
     assert_equal 1, stats["visits"]
     assert_equal 1, stats["conversions"]
     assert_equal 100, stats["conversion_rate"]

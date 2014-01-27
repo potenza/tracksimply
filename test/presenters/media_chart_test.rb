@@ -6,9 +6,9 @@ class MediaChartTest < ActiveSupport::TestCase
     @chart = MediaChart.new(site, users(:one).time_zone)
   end
 
-  test "returns stats for a single medium" do
-    data = @chart.query("Paid Search", Time.zone.today.to_s(:db), Time.zone.today.to_s(:db))
-    assert_equal 1, data.length
+  test "returns stats for all media" do
+    data = @chart.query(Time.zone.today.to_s(:db), Time.zone.today.to_s(:db))
+    assert_equal 10, data.length
 
     stats = data.first
     assert_equal "Paid Search", stats[:medium]
@@ -28,8 +28,8 @@ class MediaChartTest < ActiveSupport::TestCase
     # move expense to tomorrow
     expenses(:one).update_attribute(:paid_at, Time.zone.tomorrow.beginning_of_day)
 
-    data = @chart.query("Paid Search", Time.zone.today.to_s(:db), Time.zone.today.to_s(:db))
-    assert_equal 1, data.length
+    data = @chart.query(Time.zone.today.to_s(:db), Time.zone.today.to_s(:db))
+    assert_equal 10, data.length
 
     stats = data.first
     assert_equal "Paid Search", stats[:medium]
@@ -43,10 +43,5 @@ class MediaChartTest < ActiveSupport::TestCase
     assert_equal 9.99, stats[:revenue_per_visit]
     assert_equal 0.00, stats[:cost_per_conversion]
     assert_equal 9.99, stats[:revenue_per_conversion]
-  end
-
-  test "returns stats for an array of media" do
-    data = @chart.query(TrackingLink::MEDIA, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db))
-    assert_equal data.length, TrackingLink::MEDIA.length
   end
 end
