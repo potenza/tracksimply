@@ -22,6 +22,10 @@ class SitesController < ApplicationController
   def show
     @site = Site.find(params[:id])
     @visits = @site.visits.includes(:tracking_link, :conversion)
+    @start_date = Date.parse(params[:start_date]) rescue Time.now.in_time_zone(User.first.time_zone).to_date - 29.days
+    @end_date = Date.parse(params[:end_date]) rescue Time.now.in_time_zone(User.first.time_zone).to_date
+    @aggregate_by = params[:aggregate_by] || "media"
+    @filters = params[:filters]
   end
 
   def pixel

@@ -7,48 +7,35 @@ class Api::SitesControllerTest < ActionController::TestCase
 
   test "requires user" do
     cookies.signed[:auth_token] = "bad-auth-token"
-    get :visitors_chart, id: sites(:one).id
+    get :graph, id: sites(:one).id
     assert_redirected_to login_path
   end
 
-  test "#visitors_chart" do
-    get :visitors_chart, id: sites(:one).id, start_date: Time.zone.today, end_date: Time.zone.today
+  test "#graph" do
+    get :graph, id: sites(:one).id, start_date: Time.zone.today, end_date: Time.zone.today
     assert_response :success
 
     assert_match /visits/, @response.body
     assert_match /conversions/, @response.body
   end
 
-  test "#media_chart" do
-    get :media_chart, id: sites(:one).id, start_date: Time.zone.today, end_date: Time.zone.today
+  test "#table" do
+    get :table, id: sites(:one).id, aggregate_by: :media, start_date: Time.zone.today, end_date: Time.zone.today
     assert_response :success
 
     response = JSON.parse(@response.body)
-    stats = response.first
+    stats = response.last
 
-    assert_equal TrackingLink::MEDIA.first, stats["medium"]
-    assert_equal "Paid Search", stats["medium"]
-    assert_equal 1, stats["visits"]
+    assert_equal "Totals", stats["name"]
+    assert_equal 2, stats["visits"]
     assert_equal 1, stats["conversions"]
-    assert_equal 100, stats["conversion_rate"]
-    assert_equal 0.50, stats["cost"].to_f
+    assert_equal 76, stats["cost"].to_f
     assert_equal 9.99, stats["revenue"].to_f
-    assert_equal 9.49, stats["profit"].to_f
-  end
-
-  test "#medium_chart" do
-    get :medium_chart, id: sites(:one).id, medium: TrackingLink::MEDIA.first, start_date: Time.zone.today, end_date: Time.zone.today
-    assert_response :success
-
-    response = JSON.parse(@response.body)
-    stats = response.first
-
-    assert_equal tracking_links(:one).token, stats["token"]
-    assert_equal 1, stats["visits"]
-    assert_equal 1, stats["conversions"]
-    assert_equal 100, stats["conversion_rate"]
-    assert_equal 0.50, stats["cost"].to_f
-    assert_equal 9.99, stats["revenue"].to_f
-    assert_equal 9.49, stats["profit"].to_f
+    assert_equal -66.01, stats["profit"].to_f
+    assert_equal 4.995, stats["revenue_per_visit"].to_f
+    assert_equal 38, stats["cost_per_visit"].to_f
+    assert_equal 50, stats["conversion_rate"]
+    assert_equal 9.99, stats["revenue_per_conversion"].to_f
+    assert_equal 76, stats["cost_per_conversion"].to_f
   end
 end

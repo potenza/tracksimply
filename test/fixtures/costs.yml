@@ -14,3 +14,9 @@ onetime:
   type: OneTimeCost
   amount: 50.00
   start_date: <%= Time.zone.today.to_s(:db) %>
+
+missingexpense:
+  tracking_link: missingexpense
+  type: OneTimeCost
+  amount: 100.00
+  start_date: <%= Time.zone.today.to_s(:db) %>

@@ -65,7 +65,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
   test "#overwrite_expenses_for_date deletes existing expense records and adds a new one" do
     tracking_link = tracking_links(:one)
 
-    assert_equal 0.50, tracking_link.expenses.sum(:amount)
+    assert_equal 1.00, tracking_link.expenses.sum(:amount)
 
     tracking_link.overwrite_expenses_for_date(imports(:one).id, Time.zone.today.beginning_of_day, 49.99)
 

@@ -7,8 +7,8 @@ class Track::VisitsControllerTest < ActionController::TestCase
     end
     assert_equal tracking_links(:one).id, assigns(:visit).tracking_link_id
     assert_equal cookies.signed[:v_id], assigns(:visit).visitor_id
-    assert_equal "0.0.0.0", assigns(:visit).details["ip_address"]
-    assert_equal nil, assigns(:visit).details["referrer"]
+    assert_equal "0.0.0.0", assigns(:visit).data["ip_address"]
+    assert_equal nil, assigns(:visit).data["referrer"]
   end
 
   test "#new creates a visitor record and stores the id the cookie" do

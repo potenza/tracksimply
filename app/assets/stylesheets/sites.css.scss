@@ -1,27 +1,102 @@
-.site-date-pickers {
+.site-report-controls {
+  position: relative;
   background: #fcfcfc;
-  margin: 20px auto;
-  text-align: center;
-  .date-picker {
-    display: inline-block;
-    max-width: 110px;
+  margin: 20px 0;
+  .date-display {
+    float: left;
+    width: 250px;
+    margin: 6px 0 0 10px;
+    a {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      color: #888;
+      padding: 8px 14px;
+      span {
+        font-weight: bold;
+        color: #333;
+      }
+      &:hover {
+        background: #ebebeb;
+        text-decoration: none;
+      }
+    }
   }
-  select {
-    margin-left: 10px;
-    display: inline-block;
-    max-width: 200px;
+  .date-selectors {
+    z-index: 1000;
+    position: absolute;
+    top: 8px;
+    left: 19px;
+    width: 400px;
+    height: 225px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    .close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+    }
+    .pickers {
+      text-align: center;
+      margin: 10px 0 20px 0;
+      .date-picker {
+        display: inline-block;
+        max-width: 110px;
+      }
+    }
+    .shortcuts {
+      text-align: center;
+      a {
+        display: inline-block;
+        padding: 8px 14px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        &:hover {
+          background: #ebebeb;
+          text-decoration: none;
+        }
+      }
+    }
   }
-  .btn-group {
-    margin-left: 10px;
-    text-align: left;
+  .nav {
+    float: right;
+    width: 450px;
+    margin: 2px 0 0 40px;
+    li > a {
+      padding: 5px 10px;
+    }
+  }
+  .filters {
+    text-align: center;
+    span {
+      display: inline-block;
+      margin: 20px 5px 0px 5px;
+      a {
+        margin-left: 5px;
+        color: #fff;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
   }
 }
-.site-visitor-chart {
+.site-graph {
   height: 200px;
   margin-bottom: 20px;
 }
-.site-media-table {
+.site-table {
   margin-bottom: 40px;
+  .name {
+    div {
+      max-width: 150px;
+    }
+  }
   .money {
     text-align: right;
   }

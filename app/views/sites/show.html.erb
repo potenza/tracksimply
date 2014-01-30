@@ -1,7 +1,7 @@
 <%= title @site %>
 
 <% content_for :javascript do %>
-  <%= javascript_tag "App.siteStatsController.setup();" %>
+  <%= javascript_tag "App.SiteStatsController.setup();" %>
 <% end %>
 
 <%= breadcrumbs sites_path, @site %>
@@ -20,38 +20,59 @@
   </div>
 <% end %>
 
-<div class="well well-sm site-date-pickers">
-  Visitors from
-  <input type="text" id="start-date" class="form-control date-picker">
-  to
-  <input type="text" id="end-date" class="form-control date-picker">
-
-  <select id="medium" class="form-control">
-    <option value="">All Media</option>
-    <%= options_for_select TrackingLink::MEDIA %>
-  </select>
-
-  <div class="btn-group">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-      <%= gicon "calendar" %> Shortcuts <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="#" data-date-shortcut="today">Today</a></li>
-      <li><a href="#" data-date-shortcut="yesterday">Yesterday</a></li>
-      <li><a href="#" data-date-shortcut="last-7-days">Last 7 Days</a></li>
-      <li><a href="#" data-date-shortcut="last-30-days">Last 30 Days</a></li>
-      <li><a href="#" data-date-shortcut="this-month">This Month</a></li>
-      <li><a href="#" data-date-shortcut="last-month">Last Month</a></li>
+<div class="well well-sm site-report-controls">
+  <div class="clearfix">
+    <div class="date-display">
+      <a href="#"><%= gicon "calendar" %> <span class="start-date"><%= @start_date.to_s(:american_date) %></span> to <span class="end-date"><%= @end_date.to_s(:american_date) %></span> <b class="caret"></b></a>
+    </div>
+    <div class="date-selectors hide">
+      <button type="button" class="close">&times;</button>
+      <div class="pickers">
+        <input type="text" id="start-date" value="<%= @start_date.to_s(:american_date) %>" class="form-control date-picker">
+        to
+        <input type="text" id="end-date" value="<%= @end_date.to_s(:american_date) %>" class="form-control date-picker">
+        <button class="btn btn-default">Apply</button>
+      </div>
+      <hr>
+      <div class="shortcuts">
+        <div>
+          <a href="#" data-date-shortcut="today">Today</a>
+          <a href="#" data-date-shortcut="yesterday">Yesterday</a>
+          <a href="#" data-date-shortcut="last-7-days">Last 7 Days</a>
+        </div>
+        <div>
+          <a href="#" data-date-shortcut="last-30-days">Last 30 Days</a>
+          <a href="#" data-date-shortcut="this-month">This Month</a>
+          <a href="#" data-date-shortcut="last-month">Last Month</a>
+        </div>
+      </div>
+    </div>
+    <ul class="aggregate-by nav nav-pills">
+      <li <%= %{class="active"}.html_safe if @aggregate_by == "media" %>><a href="#" data-aggregate-by="media">Media</a></li>
+      <li <%= %{class="active"}.html_safe if @aggregate_by == "source" %>><a href="#" data-aggregate-by="source">Source</a></li>
+      <li <%= %{class="active"}.html_safe if @aggregate_by == "campaign" %>><a href="#" data-aggregate-by="campaign">Campaign</a></li>
+      <li <%= %{class="active"}.html_safe if @aggregate_by == "ad_content" %>><a href="#" data-aggregate-by="ad_content">Ad Content</a></li>
+      <li <%= %{class="active"}.html_safe if @aggregate_by == "keyword" %>><a href="#" data-aggregate-by="keyword">Keyword</a></li>
+      <li <%= %{class="active"}.html_safe if @aggregate_by == "sid" %>><a href="#" data-aggregate-by="sid">SID</a></li>
     </ul>
+  </div>
+
+  <div class="filters">
+    <% @filters && @filters.each do |filter| %>
+      <span data-filter-type="<%= filter[0] %>" data-filter="<%= filter[1] %>" class="label label-primary">
+        <%= filter[0].gsub /_/, ' ' %>: <%= filter[1] %>
+        <a href="#">&times;</a>
+      </span>
+    <% end %>
   </div>
 </div>
 
-<div class="site-visitor-chart" data-url="<%= visitors_chart_api_site_path(@site) %>"></div>
+<div class="site-graph" data-url="<%= graph_api_site_path(@site) %>"></div>
 
-<table class="table site-media-table hide" data-url="<%= media_chart_api_site_path(@site) %>">
+<table class="table site-table" data-url="<%= table_api_site_path(@site) %>">
   <thead>
     <tr>
-      <th>Medium</th>
+      <th class="aggregate-by"></th>
       <th>Visits</th>
       <th>Conversions</th>
       <th>Conversion Rate</th>
@@ -65,11 +86,17 @@
     </tr>
   </thead>
   <tbody></tbody>
+  <tfoot>
+  </tfoot>
 </table>
 
-<script type="text/html" id="site-media-row-template">
-  <tr class="site-medium">
-    <td><a href="#" data-medium="<%%= medium %>"><%%= medium %></a></td>
+<script type="text/html" id="site-table-row-template">
+  <tr>
+    <td class="name">
+      <div>
+        <a href="#" data-filter-type="<%%= type %>" data-filter="<%%= name %>"><%%= name %></a>
+      </div>
+    </td>
     <td><%%= visits %></td>
     <td><%%= conversions %></td>
     <td><%%= conversion_rate %>%</td>
@@ -83,39 +110,9 @@
   </tr>
 </script>
 
-<table class="table site-medium-table hide" data-url="<%= medium_chart_api_site_path(@site) %>">
-  <thead>
-    <tr>
-      <th>Tracking Link</th>
-      <th>Ad Content</th>
-      <th>Visits</th>
-      <th>Conversions</th>
-      <th>Conversion Rate</th>
-      <th class="money">Cost</th>
-      <th class="money">Revenue</th>
-      <th class="money">Profit</th>
-      <th class="money"><span data-toggle="tooltip" title="Cost Per Visit">CPV <%= gicon "info-sign" %></span></th>
-      <th class="money"><span data-toggle="tooltip" title="Revenue Per Visit">RPV <%= gicon "info-sign" %></span></th>
-      <th class="money"><span data-toggle="tooltip" title="Customer Acquisition Cost">CAC <%= gicon "info-sign" %></span></th>
-      <th class="money"><span data-toggle="tooltip" title="Revenue Per User">RPU <%= gicon "info-sign" %></span></th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-
-<script type="text/html" id="site-medium-row-template">
-  <tr class="site-tracking-link">
-    <td><%= gicon "link" %> <a href="#" data-token="<%%= token %>"><%%= token %></a></td>
-    <td><%%= ad_content %></td>
-    <td><%%= visits %></td>
-    <td><%%= conversions %></td>
-    <td><%%= conversion_rate %>%</td>
-    <td class="money">$<%%= cost %></td>
-    <td class="money">$<%%= revenue %></td>
-    <td class="money profit">$<%%= profit %></td>
-    <td class="money">$<%%= cost_per_visit %></td>
-    <td class="money">$<%%= revenue_per_visit %></td>
-    <td class="money">$<%%= cost_per_conversion %></td>
-    <td class="money">$<%%= revenue_per_conversion %></td>
-  </tr>
+<script type="text/html" id="site-filter-template">
+  <span data-filter-type="<%%= type %>" data-filter="<%%= filter %>" class="label label-primary">
+    <%%= type_display %>: <%%= filter %>
+    <a href="#">&times;</a>
+  </span>
 </script>

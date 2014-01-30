@@ -1,4 +1,4 @@
-class VisitorsChart
+class VisitorsGraph
   setup: (@$elem, @visits, @conversions) ->
     @setMax()
     @create()
@@ -50,4 +50,4 @@ class VisitorsChart
         data: @conversions
       ]
 
-App.visitorsChart = new VisitorsChart
+App.VisitorsGraph = new VisitorsGraph

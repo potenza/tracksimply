@@ -24,3 +24,12 @@ onetime:
   source: My Source
   ad_content: My Ad Content
   token: c3927e
+
+missingexpense:
+  site: one
+  medium: Blogs
+  landing_page_url: http://www.my-website.com
+  campaign: My Campaign
+  source: My Source
+  ad_content: My Ad Content
+  token: r9382d

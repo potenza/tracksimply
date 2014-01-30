@@ -3,3 +3,19 @@ one:
   visit: one
   paid_at: <%= Time.zone.now.beginning_of_day %>
   amount: 0.50
+
+two:
+  tracking_link: one
+  visit: two
+  paid_at: <%= Time.zone.now.beginning_of_day %>
+  amount: 0.50
+
+monthly:
+  tracking_link: monthly
+  paid_at: <%= Time.zone.now.beginning_of_day %>
+  amount: 25.00
+
+onetime:
+  tracking_link: onetime
+  paid_at: <%= Time.zone.now.beginning_of_day %>
+  amount: 50.00

@@ -36,8 +36,8 @@
 </table>
 
 <div class="well well-sm">
-  <label>For Google Adwords:</label>
-  <input type="text" class="form-control" value="<%= ENV['HTTP_HOST'] %>/r/<%= @tracking_link.token %>?kw={keyword}">
+  <label>For Google Adwords and Bing Ads:</label>
+  <input type="text" class="form-control" value="<%= ENV['HTTP_HOST'] %>/r/<%= @tracking_link.token %>?keyword={keyword}">
 </div>
 
 <div class="well well-sm">

@@ -2,110 +2,77 @@ class SiteStatsController
   setup: ->
     @destroyEventHandlers()
     @setEventHandlers()
-    @setDefaultDates()
+    @displayCharts()
 
   destroyEventHandlers: ->
-    $(".date-picker").datepicker().off "changeDate"
+    $(document).off "click", ".date-display"
+    $(document).off "click", ".date-selectors .close"
+    $(document).off "click", ".date-selectors .pickers .btn"
     $(document).off "click", "[data-date-shortcut]"
-    $(document).off "change", "select#medium"
-    $(document).off "click", ".site-media-table td a"
+    $(document).off "click", ".aggregate-by a"
+    $(document).off "click", ".site-table *[data-filter]"
+    $(document).off "click", ".filters a"
 
   setEventHandlers: ->
-    $(".date-picker").datepicker(
-      format: "mm/dd/yyyy"
-    ).on "changeDate", (e) =>
-      @updateCharts()
+    $(".date-picker").datepicker(format: "mm/dd/yyyy", autoclose: true)
+
+    $(document).on "click", ".date-display", (e) =>
+      console.log "date-display"
+      e.preventDefault()
+      @displayDateSelectors()
+
+    $(document).on "click", ".date-selectors .close", (e) =>
+      e.preventDefault()
+      @hideDateSelectors()
+
+    $(document).on "click", ".date-selectors .pickers .btn", (e) =>
+      e.preventDefault()
+      @requestNewPage()
 
     $(document).on "click", "[data-date-shortcut]", (e) =>
       e.preventDefault()
-      @dateRangeShortcut($(e.target).data("date-shortcut"))
+      @applyDateShortcut($(e.target).data("date-shortcut"))
 
-    $(document).on "change", "select#medium", (e) =>
+    $(document).on "click", ".aggregate-by a", (e) =>
       e.preventDefault()
-      @updateCharts()
+      @highlightAggregateBy($(e.target))
 
-    $(document).on "click", ".site-media-table td a", (e) =>
+    $(document).on "click", ".site-table *[data-filter]", (e) =>
       e.preventDefault()
-      @selectMedium($(e.target).data("medium"))
+      @applyFilter($(e.target).data("filter-type"), $(e.target).data("filter"))
 
-  setDefaultDates: ->
-    startDate = Date.today().add(-29).days()
-    endDate = Date.today()
-    @setDates(startDate, endDate)
+    $(document).on "click", ".filters a", (e) =>
+      e.preventDefault()
+      @removeFilter($(e.target).parent().data("filter-type"))
 
-  setDates: (startDate, endDate) ->
-    $("#start-date").datepicker("update", startDate.toString("MM/dd/yyyy"))
-    $("#end-date").datepicker("update", endDate.toString("MM/dd/yyyy"))
-    @updateCharts()
+  displayDateSelectors: ->
+    $(".date-selectors").removeClass("hide")
 
-  selectMedium: (medium) ->
-    $("#medium").val(medium)
-    @updateCharts()
+  hideDateSelectors: ->
+    $(".date-selectors").addClass("hide")
 
-  updateCharts: =>
-    $(".date-picker").datepicker("hide")
-    try
-      startDate = Date.parse($("#start-date").val()).toString("yyyy-MM-dd")
-      endDate = Date.parse($("#end-date").val()).toString("yyyy-MM-dd")
-      medium = $("#medium").val()
-      @displayVisitorChart(startDate, endDate, medium)
-      if medium
-        @displayMediumTable(medium, startDate, endDate)
-      else
-        @displayMediaTable(startDate, endDate)
-    catch e
-      console.log "SiteStatsController: error parsing date [startDate: #{$("#start-date").val()}], [endDate: #{$("#end-date").val()}]"
+  getStartDate: ->
+    Date.parse($("#start-date").val()).toString("yyyy-MM-dd")
 
-  displayVisitorChart: (startDate, endDate, medium) ->
-    $chart = $(".site-visitor-chart")
-    $.getJSON $chart.data("url"), { start_date: startDate, end_date: endDate, medium: medium }, (data) ->
-      App.visitorsChart.setup($chart, data.visits, data.conversions)
+  getEndDate: ->
+    Date.parse($("#end-date").val()).toString("yyyy-MM-dd")
 
-  displayMediaTable: (startDate, endDate) ->
-    $table = $(".site-media-table")
-    $body = $(".site-media-table tbody")
-    $body.empty()
-    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate }, (data) =>
-      tpl = $("#site-media-row-template").html()
-      $body.append(tmpl(tpl, stats)) for stats in data
-      @postDisplayTasks()
-      $table.removeClass("hide")
-      $(".site-medium-table").addClass("hide")
+  getAggregateBy: ->
+    $(".aggregate-by .active a").data("aggregate-by")
 
-  displayMediumTable: (medium, startDate, endDate) ->
-    $table = $(".site-medium-table")
-    $body = $(".site-medium-table tbody")
-    $body.empty()
-    $.getJSON $table.data("url"), { medium: medium, start_date: startDate, end_date: endDate }, (data) =>
-      tpl = $("#site-medium-row-template").html()
-      $body.append(tmpl(tpl, stats)) for stats in data
-      @postDisplayTasks()
-      $table.removeClass("hide")
-      $(".site-media-table").addClass("hide")
+  getFilters: ->
+    [$(span).data("filter-type"), $(span).data("filter")] for span in $(".filters span")
 
-  postDisplayTasks: ->
-    @formatMoney()
-    @enableToolTips()
+  # request a new page so it's added to browser history and the report can easily be shared via URL
+  requestNewPage: ->
+    url = "?start_date=#{@getStartDate()}" +
+          "&end_date=#{@getEndDate()}" +
+          "&aggregate_by=#{@getAggregateBy()}"
+    filters =  ("filters[#{filter[0]}]=#{encodeURIComponent(filter[1])}" for filter in @getFilters()).join("&")
+    url += "&#{filters}" if filters
+    location.href = url
 
-  formatMoney: ->
-    for elem in $("td.money")
-      $elem = $(elem)
-      $elem.text(accounting.formatMoney($elem.text()))
-
-    for elem in $("td.profit")
-      $elem = $(elem)
-      $elem.removeClass("positive,negative")
-      if $elem.text() == "$0.00"
-        # don't do anything
-      else if $elem.text().match /\$-/
-        $elem.addClass("negative")
-      else
-        $elem.addClass("positive")
-
-  enableToolTips: ->
-    $("[data-toggle=tooltip]").tooltip()
-
-  dateRangeShortcut: (shortcut) ->
+  applyDateShortcut: (shortcut) ->
     if shortcut == "today"
       startDate = endDate = Date.parse("t")
     else if shortcut == "yesterday"
@@ -126,6 +93,74 @@ class SiteStatsController
       startDate = Date.parse("m-1").clearTime().moveToFirstDayOfMonth()
       endDate = Date.parse("m-1").clearTime().moveToLastDayOfMonth()
 
-    @setDates(startDate, endDate)
+    $("#start-date").datepicker("update", startDate.toString("MM/dd/yyyy"))
+    $("#end-date").datepicker("update", endDate.toString("MM/dd/yyyy"))
+    @requestNewPage()
 
-App.siteStatsController = new SiteStatsController
+  applyFilter: (filterType, filter) ->
+    obj =
+      type: filterType
+      type_display: filterType.replace /_/g, ' '
+      filter: filter
+    tpl = $("#site-filter-template").html()
+    $(".filters").append(tmpl(tpl, obj))
+    @requestNewPage()
+
+  removeFilter: (filterType) ->
+    $(".filters").find("[data-filter-type=#{filterType}]").remove()
+    @requestNewPage()
+
+  highlightAggregateBy: ($target) ->
+    $(".aggregate-by .active").removeClass("active")
+    $target.parent().addClass("active")
+    @requestNewPage()
+
+  displayCharts: =>
+    startDate = @getStartDate()
+    endDate = @getEndDate()
+    @displayGraph(startDate, endDate)
+    @displayTable(startDate, endDate, @getAggregateBy(), @getFilters())
+
+  displayGraph: (startDate, endDate) ->
+    $graph = $(".site-graph")
+    $.getJSON $graph.data("url"), { start_date: startDate, end_date: endDate }, (data) ->
+      App.VisitorsGraph.setup($graph, data.visits, data.conversions)
+
+  displayTable: (startDate, endDate, aggregateBy, filters) ->
+    $table = $(".site-table")
+    $body = $(".site-table tbody").empty()
+    $footer = $(".site-table tfoot").empty()
+    filtersObj = {}
+    filtersObj[filter[0]] = filter[1] for filter in filters
+    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate, aggregate_by: aggregateBy, filters: filtersObj }, (data) =>
+      tpl = $("#site-table-row-template").html()
+      for stats in data
+        if stats.type == "totals"
+          $footer.append(tmpl(tpl.replace(/td/g, 'th'), stats)) # convert to tds to ths
+          $footer.find('a').contents().unwrap() # remove <a />
+        else
+          $body.append(tmpl(tpl, stats))
+      $table.find('a').filter(':contains("[no keyword]"), :contains("[no sid]"), :contains("[related costs]")').contents().unwrap().parent().addClass("text-muted")
+      $table.find(".aggregate-by").html($(".aggregate-by .active a").html())
+      @formatMoney()
+      @enableToolTips()
+
+  formatMoney: ->
+    for elem in $("tbody .money, tfoot .money")
+      $elem = $(elem)
+      $elem.text(accounting.formatMoney($elem.text()))
+
+    for elem in $("tbody .profit, tfoot .profit")
+      $elem = $(elem)
+      $elem.removeClass("positive,negative")
+      if $elem.text() == "$0.00"
+        # don't do anything
+      else if $elem.text().match /\$-/
+        $elem.addClass("negative")
+      else
+        $elem.addClass("positive")
+
+  enableToolTips: ->
+    $("[data-toggle=tooltip]").tooltip()
+
+App.SiteStatsController = new SiteStatsController
