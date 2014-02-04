@@ -4,6 +4,7 @@ class TrackingLink < ActiveRecord::Base
   has_many :conversions, through: :visits
   has_many :expenses
   has_one :cost
+  delegate :charges, to: :cost
 
   accepts_nested_attributes_for :cost, allow_destroy: true
 
@@ -59,7 +60,12 @@ class TrackingLink < ActiveRecord::Base
   private
 
   def pending_expenses
-    cost && PendingExpenseFinder.new(cost.charges, expenses).find || []
+    return [] unless cost
+
+    # return an array of charges that don't have a matching expense record
+    charges.find_all do |charge|
+      expenses.where(paid_at: charge.datetime).count == 0
+    end
   end
 
   def set_token
