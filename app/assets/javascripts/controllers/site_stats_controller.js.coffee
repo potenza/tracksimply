@@ -118,21 +118,21 @@ class SiteStatsController
   displayCharts: =>
     startDate = @getStartDate()
     endDate = @getEndDate()
-    @displayGraph(startDate, endDate)
-    @displayTable(startDate, endDate, @getAggregateBy(), @getFilters())
+    filters = {}
+    filters[filter[0]] = filter[1] for filter in @getFilters()
+    @displayGraph(startDate, endDate, filters)
+    @displayTable(startDate, endDate, @getAggregateBy(), filters)
 
-  displayGraph: (startDate, endDate) ->
+  displayGraph: (startDate, endDate, filters) ->
     $graph = $(".site-graph")
-    $.getJSON $graph.data("url"), { start_date: startDate, end_date: endDate }, (data) ->
+    $.getJSON $graph.data("url"), { start_date: startDate, end_date: endDate, filters: filters }, (data) ->
       App.VisitorsGraph.setup($graph, data.visits, data.conversions)
 
   displayTable: (startDate, endDate, aggregateBy, filters) ->
     $table = $(".site-table")
     $body = $(".site-table tbody").empty()
     $footer = $(".site-table tfoot").empty()
-    filtersObj = {}
-    filtersObj[filter[0]] = filter[1] for filter in filters
-    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate, aggregate_by: aggregateBy, filters: filtersObj }, (data) =>
+    $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate, aggregate_by: aggregateBy, filters: filters }, (data) =>
       tpl = $("#site-table-row-template").html()
       for stats in data
         if stats.type == "totals"
