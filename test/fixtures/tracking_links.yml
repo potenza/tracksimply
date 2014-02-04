@@ -28,7 +28,7 @@ onetime:
 # for CostFinder tests (should not be found)
 oldmonthly:
   site: one
-  medium: Display Ads (Banner Ads)
+  medium: Blogs
   landing_page_url: http://www.my-website.com
   campaign: My Campaign
   source: My Source
