@@ -15,8 +15,10 @@ onetime:
   amount: 50.00
   start_date: <%= Time.zone.today.to_s(:db) %>
 
-missingexpense:
-  tracking_link: missingexpense
-  type: OneTimeCost
-  amount: 100.00
-  start_date: <%= Time.zone.today.to_s(:db) %>
+# for CostFinder tests (should not be found)
+oldmonthly:
+  tracking_link: oldmonthly
+  type: MonthlyCost
+  amount: 5.00
+  start_date: <%= (Time.zone.today - 2.month).to_s(:db) %>
+  end_date: <%= (Time.zone.today - 1.month).to_s(:db) %>

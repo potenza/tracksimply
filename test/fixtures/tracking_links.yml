@@ -25,11 +25,12 @@ onetime:
   ad_content: My Ad Content
   token: c3927e
 
-missingexpense:
+# for CostFinder tests (should not be found)
+oldmonthly:
   site: one
-  medium: Blogs
+  medium: Display Ads (Banner Ads)
   landing_page_url: http://www.my-website.com
   campaign: My Campaign
   source: My Source
   ad_content: My Ad Content
-  token: r9382d
+  token: jd293h

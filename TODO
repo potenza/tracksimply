@@ -4,12 +4,6 @@ Imports
 
   - look for headers and auto select columns?
 
-Expenses
-
-  - script to update tracking link expenses daily
-
-    - Run TrackingLink query joined with cost and look for start_date that matches current date where("start_date like %-15-%")
-
 Testing Coffeescript (Qunit?)
 
   - app/assets/javascripts/controllers
