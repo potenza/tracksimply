@@ -1,4 +1,6 @@
-Import Formats
+Imports
+
+  - should cost imports clobber existing expense records?
 
   - look for headers and auto select columns?
 
@@ -17,7 +19,3 @@ Testing Coffeescript (Qunit?)
 Sites
 
   - move "Delete Site" into edit screen
-
-Charts
-
-  - sites#show: add totals to the media chart

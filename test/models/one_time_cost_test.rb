@@ -25,4 +25,10 @@ class OneTimeCostTest < ActiveSupport::TestCase
     assert_equal @cost.amount, charge.amount
     assert_equal @cost.start_date.beginning_of_day, charge.datetime
   end
+
+  test "#charges doesn't return future costs" do
+    @cost.start_date = Date.today + 1.day
+
+    assert_empty @cost.charges
+  end
 end

@@ -6,6 +6,10 @@ class OneTimeCost < Cost
   end
 
   def charges
-    [Charge.new(amount, start_date.beginning_of_day)]
+    if start_date <= Time.zone.today
+      [Charge.new(amount, start_date.beginning_of_day)]
+    else
+      []
+    end
   end
 end
