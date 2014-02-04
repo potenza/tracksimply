@@ -22,9 +22,9 @@ class SitesController < ApplicationController
   def show
     @site = Site.find(params[:id])
     @visits = @site.visits.includes(:tracking_link, :conversion)
-    @start_date = Date.parse(params[:start_date]) rescue Time.now.in_time_zone(User.first.time_zone).to_date - 29.days
-    @end_date = Date.parse(params[:end_date]) rescue Time.now.in_time_zone(User.first.time_zone).to_date
-    @aggregate_by = params[:aggregate_by] || "media"
+    @start_date = Date.parse(params[:start_date]) rescue default_start_date
+    @end_date = Date.parse(params[:end_date]) rescue default_end_date
+    @aggregate_by = params[:aggregate_by] || default_aggregate_by
     @filters = params[:filters]
   end
 
@@ -52,6 +52,18 @@ class SitesController < ApplicationController
   end
 
   private
+
+  def default_aggregate_by
+    "media"
+  end
+
+  def default_start_date
+    Time.now.in_time_zone(User.first.time_zone).to_date - 29.days
+  end
+
+  def default_end_date
+    Time.now.in_time_zone(User.first.time_zone).to_date
+  end
 
   def site_params
     params.require(:site).permit(:name)
