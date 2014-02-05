@@ -22,6 +22,7 @@ class SiteFlowTest < ActionDispatch::IntegrationTest
 
   test "delete site" do
     click_on "My Site", match: :first
+    click_on "Edit Site"
     click_on "Delete Site"
     assert_page_has_content page, "My Site has been deleted"
   end

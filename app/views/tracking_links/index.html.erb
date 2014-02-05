@@ -1,6 +1,6 @@
 <%= title "#@site Tracking Links" %>
 
-<%= breadcrumbs sites_path, @site, "Tracking Links" %>
+<%= render "tabs", site: @site %>
 
 <% if @tracking_links.empty? %>
   <div class="alert alert-warning">No tracking links found.</div>

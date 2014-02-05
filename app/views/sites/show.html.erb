@@ -4,21 +4,7 @@
   <%= javascript_tag "App.SiteStatsController.setup();" %>
 <% end %>
 
-<%= breadcrumbs sites_path, @site %>
-
-<% if current_user.admin? %>
-  <div class="row">
-    <div class="col-md-6">
-      <%= link_to gicon("link", "Tracking Links"), site_tracking_links_path(@site), class: "btn btn-default" %>
-      <%= link_to gicon("star", "Conversion Code"), pixel_site_path(@site), class: "btn btn-default" %>
-      <%= link_to gicon("cloud-upload", "Cost Imports"), site_imports_path(@site), class: "btn btn-default" %>
-    </div>
-    <div class="col-md-6 txtr">
-      <%= link_to gicon("pencil", "Edit Site"), edit_site_path(@site), class: "btn btn-default" %>
-      <%= link_to gicon("trash", "Delete Site"), site_path(@site), method: :delete, data: { confirm: "Are you sure you want to delete this site?" }, class: "btn btn-danger" %>
-    </div>
-  </div>
-<% end %>
+<%= render "sites/tabs", site: @site, active: :site %>
 
 <div class="well well-sm site-report-controls">
   <div class="clearfix">

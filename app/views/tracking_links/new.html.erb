@@ -1,5 +1,5 @@
 <%= title "Add a Tracking Link" %>
 
-<%= breadcrumbs sites_path, @site, site_tracking_links_path(@site), "Add a Tracking Link" %>
+<%= render "tabs", site: @site %>
 
 <%= render "form", site: @site, tracking_link: @tracking_link %>

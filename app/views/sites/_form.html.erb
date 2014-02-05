@@ -3,7 +3,7 @@
     <%= bootstrap_form_for site do |f| %>
       <%= f.alert_message "Please fix the error below" %>
 
-      <%= f.text_field :name, help: "Example: My Website" %>
+      <%= f.text_field :name, help: (site.persisted? ? "" : "Example: My Website") %>
       <%= f.primary %>
       <% if site.persisted? %>
         <%= link_to "Cancel", site, class: "btn btn-default" %>

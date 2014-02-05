@@ -1,6 +1,6 @@
 <%= title "Tracking Link #@tracking_link" %>
 
-<%= breadcrumbs sites_path, @site, site_tracking_links_path(@site), @tracking_link %>
+<%= render "tabs", site: @site %>
 
 <table class="table table-bordered">
   <tr>
@@ -45,6 +45,6 @@
   <input type="text" class="form-control" value="<%= ENV['HTTP_HOST'] %>/r/<%= @tracking_link.token %>">
 </div>
 
-<%= back site_tracking_links_path(@site) %>
-<%= link_to gicon("pencil", "Edit"), edit_site_tracking_link_path(@site, @tracking_link), class: "btn btn-default" %>
-<%= link_to gicon("trash", "Delete"), site_tracking_link_path(@site, @tracking_link), method: :delete, data: { confirm: "Are you sure you want to delete this tracking link?" }, class: "btn btn-danger" %>
+<%= link_to gicon("chevron-left", "Back to Tracking Links"), site_tracking_links_path(@site), class: "btn btn-default" %>
+<%= link_to "Edit", edit_site_tracking_link_path(@site, @tracking_link), class: "btn btn-default" %>
+<%= link_to "Delete", site_tracking_link_path(@site, @tracking_link), method: :delete, data: { confirm: "Are you sure you want to delete this tracking link?" }, class: "btn btn-danger" %>

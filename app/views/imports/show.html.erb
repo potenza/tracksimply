@@ -1,6 +1,6 @@
 <%= title "Import" %>
 
-<%= breadcrumbs sites_path, @site, site_imports_path(@site), @import %>
+<%= render "tabs", site: @site %>
 
 <% if @import.processed? %>
   <table class="table table-bordered">

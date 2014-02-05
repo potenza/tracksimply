@@ -1,5 +1,7 @@
 <%= title "Edit Site" %>
 
-<%= breadcrumbs sites_path, @site, "Edit Site" %>
+<%= render "sites/tabs", site: @site, active: :edit %>
+
+<%= link_to gicon("trash", "Delete Site"), site_path(@site), method: :delete, data: { confirm: "Are you sure you want to delete this site?\n\nWARNING: Your tracking links will continue to redirect, but you will no longer be able to view stats." }, class: "btn btn-danger pull-right" %>
 
 <%= render "form", site: @site %>
