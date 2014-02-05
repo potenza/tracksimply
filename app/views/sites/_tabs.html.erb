@@ -1,6 +1,6 @@
 <% if current_user.admin? %>
   <ul class="nav nav-tabs">
-    <li <%= %{class="active"}.html_safe if active == :site %>><%= link_to "#{@site.name} Dashboard", @site %></li>
+    <li <%= %{class="active"}.html_safe if active == :site %>><%= link_to site, @site %></li>
     <li <%= %{class="active"}.html_safe if active == :tracking_links %>><%= link_to "Tracking Links", site_tracking_links_path(@site) %></li>
     <li <%= %{class="active"}.html_safe if active == :pixel %>><%= link_to "Conversion Code", pixel_site_path(@site) %></li>
     <li <%= %{class="active"}.html_safe if active == :imports %>><%= link_to "Cost Imports", site_imports_path(@site) %></li>
