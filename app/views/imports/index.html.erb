@@ -2,6 +2,8 @@
 
 <%= render "tabs", site: @site %>
 
+<%= link_to "New Import", new_site_import_path(@site), class: "btn btn-primary new-import" %>
+
 <% if @imports.empty? %>
   <div class="alert alert-warning">No imports found.</div>
 <% else %>
@@ -49,5 +51,3 @@
     <% end %>
   </table>
 <% end %>
-
-<%= link_to "New Import", new_site_import_path(@site), class: "btn btn-primary" %>
