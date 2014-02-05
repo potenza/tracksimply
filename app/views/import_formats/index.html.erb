@@ -18,7 +18,7 @@
     </thead>
     <% @import_formats.each do |import_format| %>
       <tr>
-        <td><%= import_format.file_type %></td>
+        <td><%= gicon "file" %> <%= import_format.file_type %></td>
         <td class="text-muted"><%= import_format.date_column %></td>
         <td class="text-muted"><%= import_format.url_column %></td>
         <td class="text-muted"><%= import_format.cost_column %></td>
