@@ -2,9 +2,7 @@
 
 <%= link_to "New User", new_user_path, class: "btn btn-primary new-user" if current_user.admin? %>
 
-<% if @users.empty?%>
-  <div class="alert alert-warning">No users found.</div>
-<% else %>
+<% unless @users.empty?%>
   <table class="table">
     <thead>
       <tr>
