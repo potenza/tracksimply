@@ -20,7 +20,7 @@
     <% end %>
   </table>
 
-  <%= link_to gicon("trash", "Delete Import"), site_import_path(@site, @import), method: :delete, data: { confirm: "Are you sure you want to delete this import and all the associated expenses?" }, class: "btn btn-danger" %>
+  <%= link_to "Delete Import", site_import_path(@site, @import), method: :delete, data: { confirm: "Are you sure you want to delete this import and all the associated expenses?" }, class: "btn btn-danger" %>
 <% else %>
   <div class="alert alert-warning imports-auto-refresh">This file is being processed.</div>
 <% end %>

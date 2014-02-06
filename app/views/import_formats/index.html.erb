@@ -22,7 +22,7 @@
         <td class="text-muted"><%= import_format.date_column %></td>
         <td class="text-muted"><%= import_format.url_column %></td>
         <td class="text-muted"><%= import_format.cost_column %></td>
-        <td class="txtr"><%= link_to gicon("trash", "Delete"), import_format_path(import_format), method: :delete, data: { confirm: "Are you sure you want to delete this import format?" }, class: "btn btn-danger btn-sm" %></td>
+        <td class="txtr"><%= link_to "Delete", import_format_path(import_format), method: :delete, data: { confirm: "Are you sure you want to delete this import format?" }, class: "btn btn-danger btn-sm" %></td>
       </tr>
     <% end %>
   </table>
