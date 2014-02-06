@@ -15,7 +15,7 @@
     </thead>
     <% @sites.each do |site| %>
       <tr>
-        <td><%= gicon "dashboard" %> <%= link_to site, site %></td>
+        <td><%= gicon "stats" %> <%= link_to site, site %></td>
         <td class="text-muted"><%= pluralize site.visits.count, "Visit" %></td>
         <td class="text-muted"><%= pluralize site.conversions.count, "Conversion" %></td>
       </tr>
