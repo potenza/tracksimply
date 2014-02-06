@@ -1,6 +1,6 @@
 <%= page_title "Sites" %>
 
-<%= link_to "Add a Site", new_site_path, class: "btn btn-primary new-site" if current_user.admin? %>
+<%= link_to "New Site", new_site_path, class: "btn btn-primary new-site" if current_user.admin? %>
 
 <% if @sites.empty? %>
   <div class="alert alert-warning">No sites found.</div>

@@ -1,6 +1,6 @@
 <%= page_title "Users" %>
 
-<%= link_to "Add a User", new_user_path, class: "btn btn-primary new-user" if current_user.admin? %>
+<%= link_to "New User", new_user_path, class: "btn btn-primary new-user" if current_user.admin? %>
 
 <% if @users.empty?%>
   <div class="alert alert-warning">No users found.</div>
