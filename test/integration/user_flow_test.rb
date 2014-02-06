@@ -7,7 +7,7 @@ class UserFlowTest < ActionDispatch::IntegrationTest
 
   test "add a user" do
     click_on "Users"
-    click_on "Add a User"
+    click_on "New User"
     fill_in :user_first_name, with: "Bob"
     fill_in :user_last_name, with: "Smith"
     fill_in :user_email, with: "bobsmith@example.com"

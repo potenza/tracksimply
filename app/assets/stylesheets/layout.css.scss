@@ -1,11 +1,19 @@
 .navbar {
   .navbar-brand {
+    position: relative;
+    top: 4px;
+    img {
+      position: relative;
+      top: -5px;
+    }
     padding: 20px;
     font-family: 'Lily Script One', sans-serif;
     font-size: 30px;
     color: #fff;
   }
   .navbar-nav {
+    position: relative;
+    top: 4px;
     li > a {
       padding: 20px;
       color: #ccc;

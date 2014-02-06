@@ -6,7 +6,7 @@ class SiteFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "add a site" do
-    click_on "Add a Site", match: :first
+    click_on "New Site", match: :first
     fill_in :site_name, with: "My Awesome Site"
     click_on "Create Site"
     assert_page_has_content page, "My Awesome Site has been added"
