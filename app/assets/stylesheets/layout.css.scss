@@ -1,21 +1,18 @@
 .navbar {
   .navbar-brand {
-    position: relative;
-    top: 4px;
-    img {
-      position: relative;
-      top: -5px;
-    }
-    padding: 20px;
+    padding: 22px;
     font-family: 'Lily Script One', sans-serif;
-    font-size: 30px;
+    font-size: 26px;
     color: #fff;
+    span {
+      position: relative;
+      top: 4px;
+      margin-left: 3px;
+    }
   }
   .navbar-nav {
-    position: relative;
-    top: 4px;
     li > a {
-      padding: 20px;
+      padding: 23px;
       color: #ccc;
       &:hover {
         color: #fff;
