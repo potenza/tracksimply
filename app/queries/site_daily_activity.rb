@@ -10,8 +10,8 @@ class SiteDailyActivity
 
   def query
     {
-      visits: count(visits_relation),
-      conversions: count(conversions_relation)
+      visits: visits,
+      conversions: conversions,
     }
   end
 
@@ -22,32 +22,41 @@ class SiteDailyActivity
     @end_date = Date.parse(end_date)
   end
 
-  def visits_relation
-    @visits_relation ||= if filters.empty?
-      site.visits
-    else
-      site.visits.joins(:tracking_link)
-    end
+  def visits
+    collect_results(visit_relation)
   end
 
-  def conversions_relation
-    @conversions_relation ||= if filters.empty?
-      site.conversions
-    else
-      site.conversions.joins(:visit).joins(:tracking_link)
-    end
+  def conversions
+    collect_results(conversion_relation)
   end
 
-  def count(relation)
-    apply_filters!(relation)
-    Time.use_zone(time_zone) do
-      start_date.upto(end_date).map do |date|
-        [
-          date.strftime("%Q").to_i,
-          relation.where(created_at: date.beginning_of_day..date.end_of_day).count
-        ]
-      end
+  def collect_results(relation)
+    relation.collect { |res| [res.date.strftime("%Q").to_i, res.count] }
+  end
+
+  def visit_relation
+    relation = Time.use_zone(time_zone) do
+      Visit
+        .select("date(visits.created_at) as date, count(*) as count")
+        .group("date(visits.created_at)")
+        .joins(:tracking_link)
+        .where("tracking_links.site_id" => site.id)
+        .where("visits.created_at" => start_date.beginning_of_day..end_date.end_of_day)
     end
+    apply_filters!(relation).order("date")
+  end
+
+  def conversion_relation
+    relation = Time.use_zone(time_zone) do
+      Conversion
+        .select("date(conversions.created_at) as date, count(*) as count")
+        .group("date(conversions.created_at)")
+        .joins(:visit)
+        .joins(:tracking_link)
+        .where("tracking_links.site_id" => site.id)
+        .where("conversions.created_at" => start_date.beginning_of_day..end_date.end_of_day)
+    end
+    apply_filters!(relation).order("date")
   end
 
   def apply_filters!(relation)
