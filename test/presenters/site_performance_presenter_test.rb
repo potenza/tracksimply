@@ -18,6 +18,7 @@ class SitePerformancePresenterTest < ActiveSupport::TestCase
   end
 
   test "calulates totals" do
+    puts @data.inspect
     stats = @data.find { |row| row[:name] == "Totals" }
 
     assert_equal 2, stats[:visits]

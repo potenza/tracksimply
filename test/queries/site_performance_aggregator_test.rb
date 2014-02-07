@@ -25,7 +25,7 @@ class SitePerformanceAggregatorTest < ActiveSupport::TestCase
 
   test "includes non-visit-related costs for aggregations on visit fields" do
     results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "keyword", {}).query
-    stats = results.find { |row| row[:name] == "[related costs]" }
+    stats = results.find { |row| row[:name] == "[other costs]" }
 
     assert_equal "keyword", stats[:type]
     assert_equal 0, stats[:visits]
@@ -36,7 +36,7 @@ class SitePerformanceAggregatorTest < ActiveSupport::TestCase
 
   test "includes non-visit-related stats for aggregations on visit fields (with no filters)" do
     results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "keyword", {}).query
-    stats = results.find { |row| row[:name] == "[no keyword]" }
+    stats = results.find { |row| row[:name] == "[empty]" }
 
     assert_equal "keyword", stats[:type]
     assert_equal 1, stats[:visits]
@@ -49,7 +49,7 @@ class SitePerformanceAggregatorTest < ActiveSupport::TestCase
     filters = { "keyword" => "my search term" }
     results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "keyword", filters).query
 
-    assert_nil results.find { |row| row[:name] == "[no keyword]" }
+    assert_nil results.find { |row| row[:name] == "[empty]" }
 
     stats = results.find { |row| row[:name] == "my search term" }
     assert_equal "keyword", stats[:type]
@@ -58,7 +58,7 @@ class SitePerformanceAggregatorTest < ActiveSupport::TestCase
     assert_equal 0.50, stats[:cost]
     assert_equal 9.99, stats[:revenue]
 
-    stats = results.find { |row| row[:name] == "[related costs]" }
+    stats = results.find { |row| row[:name] == "[other costs]" }
     assert_equal "keyword", stats[:type]
     assert_equal 0, stats[:visits]
     assert_equal 0, stats[:conversions]

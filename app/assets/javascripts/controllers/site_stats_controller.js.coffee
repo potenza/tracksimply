@@ -140,7 +140,7 @@ class SiteStatsController
           $footer.find('a').contents().unwrap() # remove <a />
         else
           $body.append(tmpl(tpl, stats))
-      $table.find('a').filter(':contains("[no keyword]"), :contains("[no sid]"), :contains("[related costs]")').contents().unwrap().parent().addClass("text-muted")
+      $table.find('a').filter(':contains("[empty]"), :contains("[other costs]")').contents().unwrap().parent().addClass("text-muted")
       $table.find(".aggregate-by").html($(".aggregate-by .active a").html())
       @formatMoney()
       @enableToolTips()

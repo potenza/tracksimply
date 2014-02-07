@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140207065606) do
+ActiveRecord::Schema.define(version: 20140207194746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20140207065606) do
     t.datetime "updated_at"
   end
 
+  add_index "conversions", ["created_at"], name: "index_conversions_on_created_at", using: :btree
   add_index "conversions", ["visit_id"], name: "index_conversions_on_visit_id", using: :btree
 
   create_table "costs", force: true do |t|
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 20140207065606) do
   end
 
   add_index "expenses", ["import_id"], name: "index_expenses_on_import_id", using: :btree
+  add_index "expenses", ["paid_at"], name: "index_expenses_on_paid_at", using: :btree
   add_index "expenses", ["tracking_link_id"], name: "index_expenses_on_tracking_link_id", using: :btree
   add_index "expenses", ["visit_id"], name: "index_expenses_on_visit_id", using: :btree
 
@@ -125,6 +127,7 @@ ActiveRecord::Schema.define(version: 20140207065606) do
     t.string   "sid"
   end
 
+  add_index "visits", ["created_at"], name: "index_visits_on_created_at", using: :btree
   add_index "visits", ["data"], name: "visits_gin_data", using: :gin
   add_index "visits", ["keyword"], name: "index_visits_on_keyword", using: :btree
   add_index "visits", ["sid"], name: "index_visits_on_sid", using: :btree

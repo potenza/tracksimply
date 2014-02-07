@@ -9,48 +9,89 @@ class SitePerformanceAggregator
   end
 
   def query
-    aggregation_values.collect do |aggregation_value|
-      rel = scope_relation_for_value(base_relation, aggregation_value)
-      stats = {
+    visits = visits_and_conversions
+
+    if !visit_filter_present? && visit_field?(aggregate_by)
+      visits.push({ "aggregate_by" => "[other costs]", "amount" => 0.00 })
+    end
+
+    visit_expenses = visit_related_expenses
+    other_expenses = non_visit_related_expenses
+
+    visits.collect do |row|
+      aggregate_by_value = row["aggregate_by"]
+      visit_expense = visit_expenses.find { |expense_row| expense_row["aggregate_by"] == aggregate_by_value }
+      other_expense = other_expenses.find { |expense_row| expense_row["aggregate_by"] == aggregate_by_value }
+      visit_expense = visit_expense && visit_expense["amount"] || 0.00
+      other_expense = other_expense && other_expense["amount"] || 0.00
+      expense = visit_expense + other_expense
+      {
         type: aggregate_by,
-        name: (aggregation_value || "[no #{aggregate_by}]"),
-        visits: rel
-          .where("visits.created_at" => date_range)
-          .count,
-        conversions: rel
-          .where("conversions.created_at" => date_range)
-          .count,
-        cost: rel
-          .where("expenses.paid_at" => date_range)
-          .sum(:amount),
-        revenue: rel
-          .where("conversions.created_at" => date_range)
-          .sum(:revenue)
+        name: aggregate_by_value || "[empty]",
+        visits: row["visits_count"] || 0,
+        conversions: row["conversions_count"] || 0,
+        revenue: row["revenue"] || 0.00,
+        cost: expense
       }
-
-      # some expenses aren't attached to a visit record. only append these when:
-      # - aggregating on a tracking_link AND a visit filter isn't present
-      # - it's a special catch-all for visits ([related costs])
-      if (tracking_link_field?(aggregate_by) && !visit_filter_present?) || aggregation_value == "[related costs]"
-        stats[:cost] += non_visit_based_expense_relation(aggregation_value).sum(:amount)
-      end
-
-      stats
     end
   end
 
   private
 
-  def visit_field?(col)
-    %[keyword sid].include? col
-  end
-
-  def tracking_link_field?(col)
-    %[medium source campaign ad_content].include? col
+  def visit_field?(field)
+    %w[keyword sid].include? field
   end
 
   def visit_filter_present?
     filters.has_key?(:keyword) || filters.has_key?(:sid)
+  end
+
+  def visits_and_conversions
+    relation = TrackingLink
+      .select("#{aggregate_by} aggregate_by, count(visits) as visits_count, count(conversions) as conversions_count, sum(revenue) as revenue")
+      .group(aggregate_by)
+      .joins("LEFT JOIN visits ON visits.tracking_link_id = tracking_links.id")
+      .joins("LEFT JOIN conversions ON conversions.visit_id = visits.id")
+      .where("tracking_links.site_id" => site.id)
+      .where("visits.created_at" => date_range)
+      .order(aggregate_by)
+    apply_filters!(relation)
+  end
+
+  def visit_related_expenses
+    relation = TrackingLink
+      .select("#{aggregate_by} aggregate_by, sum(expenses.amount) as amount")
+      .group(aggregate_by)
+      .joins("LEFT JOIN visits ON visits.tracking_link_id = tracking_links.id")
+      .joins("LEFT JOIN expenses ON expenses.visit_id = visits.id")
+      .where("tracking_links.site_id" => site.id)
+      .where("expenses.paid_at" => date_range)
+      .order(aggregate_by)
+    apply_filters!(relation)
+  end
+
+  def non_visit_related_expenses
+    if visit_field? aggregate_by
+      amount = site.tracking_links
+        .joins(:expenses)
+        .where("expenses.paid_at" => date_range)
+        .where("expenses.visit_id" => nil)
+        .sum("amount")
+
+      [{
+        "aggregate_by" => "[other costs]",
+        "amount" => amount
+      }]
+    else
+      relation = TrackingLink
+        .select("#{aggregate_by} aggregate_by, sum(expenses.amount) as amount")
+        .group(aggregate_by)
+        .joins("LEFT JOIN expenses ON expenses.tracking_link_id = tracking_links.id")
+        .where("tracking_links.site_id" => site.id)
+        .where("expenses.visit_id IS NULL")
+        .order(aggregate_by)
+      apply_filters!(relation)
+    end
   end
 
   def set_date_range(time_zone, start_date, end_date)
@@ -61,60 +102,17 @@ class SitePerformanceAggregator
     end
   end
 
-  def aggregation_values
-    values = base_relation.pluck(aggregate_by).uniq
-
-    if visit_field?(aggregate_by) && !visit_filter_present?
-      # add a catch-all for [related costs], but only when we're not
-      # filtering for a on a visit-related field
-      values.push("[related costs]")
-    end
-
-    values
-  end
-
-  def base_relation
-    @base_relation ||= begin
-      relation = site.tracking_links
-        .joins("LEFT JOIN visits ON visits.tracking_link_id = tracking_links.id")
-        .joins("LEFT JOIN conversions ON conversions.visit_id = visits.id")
-        .joins("LEFT JOIN expenses ON expenses.visit_id = visits.id")
-      apply_filters!(relation)
-    end
-  end
-
-  def non_visit_based_expense_relation(value)
-    relation = site.tracking_links
-      .joins(:expenses)
-      .where("expenses.paid_at" => date_range)
-      .where("expenses.visit_id" => nil)
-    apply_filters!(relation)
-    scope_relation_for_value(relation, value)
-  end
-
   def apply_filters!(relation)
     filters.each do |column_name, column_value|
       column_value = nil if column_value.empty?
       if visit_field? column_name
-        if relation.to_sql.match /visits/ # non_visit_based_expense_relation doesn't join on visits
-          relation.merge! relation.where("visits.#{column_name}" => column_value)
+        if relation.to_sql.match /visits/
+          relation = relation.where("visits.#{column_name}" => column_value)
         end
       else
-        relation.merge! relation.where("tracking_links.#{column_name}" => column_value)
+        relation = relation.where("tracking_links.#{column_name}" => column_value)
       end
     end
     relation
-  end
-
-  def scope_relation_for_value(relation, value)
-    if visit_field? aggregate_by
-      if relation.to_sql.match /visits/ # non_visit_based_expense_relation doesn't join on visits
-        relation.where("visits.#{aggregate_by}" => value)
-      else
-        relation
-      end
-    else
-      relation.where("tracking_links.#{aggregate_by}" => value)
-    end
   end
 end
