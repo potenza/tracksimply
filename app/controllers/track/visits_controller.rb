@@ -9,11 +9,11 @@ class Track::VisitsController < ApplicationController
     @visit = Visit.create(
       tracking_link: tracking_link,
       visitor: visitor,
+      keyword: params[:keyword],
+      sid: params[:sid],
       data: {
         ip_address: request.remote_ip,
-        referrer: request.referer,
-        keyword: params[:keyword],
-        sid: params[:sid]
+        referrer: request.referer
       }
     )
 

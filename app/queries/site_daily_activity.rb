@@ -54,7 +54,7 @@ class SiteDailyActivity
     filters.each do |column_name, column_value|
       column_value = nil if column_value.empty?
       if %W[keyword sid].include?(column_name)
-        relation.merge! relation.where("visits.data @> hstore(:key, :value)", key: column_name, value: column_value)
+        relation.merge! relation.where("visits.#{column_name}" => column_value)
       else
         relation.merge! relation.where("tracking_links.#{column_name}" => column_value)
       end

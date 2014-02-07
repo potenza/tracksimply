@@ -62,17 +62,15 @@ class SitePerformanceAggregator
   end
 
   def aggregation_values
-    if visit_field? aggregate_by
-      values = base_relation.pluck("data -> '#{aggregate_by}'").uniq
-      if !visit_filter_present?
-        # add a catch-all for [related costs], but only when we're not
-        # filtering for a on a visit-related field
-        values.push("[related costs]")
-      end
-      values
-    else
-      base_relation.pluck(aggregate_by).uniq
+    values = base_relation.pluck(aggregate_by).uniq
+
+    if visit_field?(aggregate_by) && !visit_filter_present?
+      # add a catch-all for [related costs], but only when we're not
+      # filtering for a on a visit-related field
+      values.push("[related costs]")
     end
+
+    values
   end
 
   def base_relation
@@ -99,10 +97,10 @@ class SitePerformanceAggregator
       column_value = nil if column_value.empty?
       if visit_field? column_name
         if relation.to_sql.match /visits/ # non_visit_based_expense_relation doesn't join on visits
-          relation.merge! relation.where("visits.data @> hstore(:key, :value)", key: column_name, value: column_value)
+          relation.merge! relation.where("visits.#{column_name}" => column_value)
         end
       else
-        relation.merge! relation.where(column_name => column_value)
+        relation.merge! relation.where("tracking_links.#{column_name}" => column_value)
       end
     end
     relation
@@ -111,12 +109,12 @@ class SitePerformanceAggregator
   def scope_relation_for_value(relation, value)
     if visit_field? aggregate_by
       if relation.to_sql.match /visits/ # non_visit_based_expense_relation doesn't join on visits
-        relation.where(["visits.data @> hstore(:key, :value)", key: aggregate_by, value: value])
+        relation.where("visits.#{aggregate_by}" => value)
       else
         relation
       end
     else
-      relation.where("#{aggregate_by}" => value)
+      relation.where("tracking_links.#{aggregate_by}" => value)
     end
   end
 end
