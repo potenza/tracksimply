@@ -1,3 +1,5 @@
+- fix tests
+- index aggregation fields? (source, campaign, medium, etc.)
 - allow clicking on [empty] stats?
 
 Related Costs

@@ -9,29 +9,17 @@ class SitePerformanceAggregator
   end
 
   def query
-    visits = visits_and_conversions
-
-    if !visit_filter_present? && visit_field?(aggregate_by)
-      visits.push({ "aggregate_by" => "[other costs]", "amount" => 0.00 })
-    end
-
-    visit_expenses = visit_related_expenses
-    other_expenses = non_visit_related_expenses
-
     visits.collect do |row|
       aggregate_by_value = row["aggregate_by"]
-      visit_expense = visit_expenses.find { |expense_row| expense_row["aggregate_by"] == aggregate_by_value }
-      other_expense = other_expenses.find { |expense_row| expense_row["aggregate_by"] == aggregate_by_value }
-      visit_expense = visit_expense && visit_expense["amount"] || 0.00
-      other_expense = other_expense && other_expense["amount"] || 0.00
-      expense = visit_expense + other_expense
+      cost = row["amount"] || 0.00
+      cost += other_expense_for(aggregate_by_value)
       {
         type: aggregate_by,
         name: aggregate_by_value || "[empty]",
         visits: row["visits_count"] || 0,
         conversions: row["conversions_count"] || 0,
         revenue: row["revenue"] || 0.00,
-        cost: expense
+        cost: cost
       }
     end
   end
@@ -46,52 +34,60 @@ class SitePerformanceAggregator
     filters.has_key?(:keyword) || filters.has_key?(:sid)
   end
 
-  def visits_and_conversions
+  def visits
     relation = TrackingLink
-      .select("#{aggregate_by} aggregate_by, count(visits) as visits_count, count(conversions) as conversions_count, sum(revenue) as revenue")
-      .group(aggregate_by)
+      .select("DISTINCT(#{aggregate_by}) as aggregate_by, count(visits) as visits_count, count(conversions) as conversions_count, sum(revenue) as revenue, sum(expenses.amount) as amount")
       .joins("LEFT JOIN visits ON visits.tracking_link_id = tracking_links.id")
       .joins("LEFT JOIN conversions ON conversions.visit_id = visits.id")
-      .where("tracking_links.site_id" => site.id)
-      .where("visits.created_at" => date_range)
-      .order(aggregate_by)
-    apply_filters!(relation)
-  end
-
-  def visit_related_expenses
-    relation = TrackingLink
-      .select("#{aggregate_by} aggregate_by, sum(expenses.amount) as amount")
-      .group(aggregate_by)
-      .joins("LEFT JOIN visits ON visits.tracking_link_id = tracking_links.id")
       .joins("LEFT JOIN expenses ON expenses.visit_id = visits.id")
       .where("tracking_links.site_id" => site.id)
-      .where("expenses.paid_at" => date_range)
+      .where("visits.created_at" => date_range)
+      .group(aggregate_by)
       .order(aggregate_by)
-    apply_filters!(relation)
+    visits = apply_filters!(relation).all
+
+    if visit_field?(aggregate_by) && !visit_filter_present?
+      # add a placeholder for other costs
+      visits.push({ "aggregate_by" => "[other costs]", "amount" => 0.00 })
+    end
+
+    visits
   end
 
-  def non_visit_related_expenses
-    if visit_field? aggregate_by
-      amount = site.tracking_links
-        .joins(:expenses)
-        .where("expenses.paid_at" => date_range)
-        .where("expenses.visit_id" => nil)
-        .sum("amount")
-
-      [{
-        "aggregate_by" => "[other costs]",
-        "amount" => amount
-      }]
-    else
-      relation = TrackingLink
-        .select("#{aggregate_by} aggregate_by, sum(expenses.amount) as amount")
-        .group(aggregate_by)
-        .joins("LEFT JOIN expenses ON expenses.tracking_link_id = tracking_links.id")
-        .where("tracking_links.site_id" => site.id)
-        .where("expenses.visit_id IS NULL")
-        .order(aggregate_by)
-      apply_filters!(relation)
+  def other_expense_for(aggregate_by_value)
+    @other_expenses ||= begin
+      if visit_field? aggregate_by
+        sum_non_visit_related_expenses
+      else
+        aggregate_non_visit_related_expenses
+      end
     end
+    expense = @other_expenses.find { |row| row["aggregate_by"] == aggregate_by_value }
+    expense && expense["amount"] || 0.00
+  end
+
+  def sum_non_visit_related_expenses
+    amount = site.tracking_links
+      .joins(:expenses)
+      .where("expenses.paid_at" => date_range)
+      .where("expenses.visit_id" => nil)
+      .sum("amount")
+
+    [{
+      "aggregate_by" => "[other costs]",
+      "amount" => amount
+    }]
+  end
+
+  def aggregate_non_visit_related_expenses
+    relation = TrackingLink
+      .select("DISTINCT(#{aggregate_by}) as aggregate_by, sum(expenses.amount) as amount")
+      .joins("LEFT JOIN expenses ON expenses.tracking_link_id = tracking_links.id")
+      .where("tracking_links.site_id" => site.id)
+      .where("expenses.visit_id IS NULL")
+      .group(aggregate_by)
+      .order(aggregate_by)
+    apply_filters!(relation)
   end
 
   def set_date_range(time_zone, start_date, end_date)

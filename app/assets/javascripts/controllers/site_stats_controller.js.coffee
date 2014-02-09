@@ -130,9 +130,10 @@ class SiteStatsController
 
   displayTable: (startDate, endDate, aggregateBy, filters) ->
     $table = $(".site-table")
-    $body = $(".site-table tbody").empty()
+    $body = $(".site-table tbody")
     $footer = $(".site-table tfoot").empty()
     $.getJSON $table.data("url"), { start_date: startDate, end_date: endDate, aggregate_by: aggregateBy, filters: filters }, (data) =>
+      $body.empty()
       tpl = $("#site-table-row-template").html()
       for stats in data
         if stats.type == "totals"

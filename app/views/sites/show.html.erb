@@ -53,7 +53,9 @@
   </div>
 </div>
 
-<div class="site-graph" data-url="<%= graph_api_site_path(@site) %>"></div>
+<div class="site-graph" data-url="<%= graph_api_site_path(@site) %>">
+  <div class="alert alert-info site-loading">Loading data...</div>
+</div>
 
 <table class="table site-table" data-url="<%= table_api_site_path(@site) %>">
   <thead>
@@ -71,7 +73,13 @@
       <th class="money"><span data-toggle="tooltip" title="Revenue Per User">RPU <%= gicon "info-sign" %></span></th>
     </tr>
   </thead>
-  <tbody></tbody>
+  <tbody>
+    <tr>
+      <td colspan="11">
+        <div class="alert alert-info site-loading">Loading data...</div>
+      </td>
+    </tr>
+  </tbody>
   <tfoot>
   </tfoot>
 </table>
