@@ -143,8 +143,14 @@ class SiteStatsController
           $body.append(tmpl(tpl, stats))
       $table.find('a').filter(':contains("[empty]"), :contains("[other costs]")').contents().unwrap().parent().addClass("text-muted")
       $table.find(".aggregate-by").html($(".aggregate-by .active a").html())
+      @formatNumbers()
       @formatMoney()
       @enableToolTips()
+
+  formatNumbers: ->
+    for elem in $("tbody .number, tfoot .number")
+      $elem = $(elem)
+      $elem.text(accounting.formatNumber($elem.text()))
 
   formatMoney: ->
     for elem in $("tbody .money, tfoot .money")
