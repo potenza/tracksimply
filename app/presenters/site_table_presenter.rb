@@ -1,4 +1,4 @@
-class SitePerformancePresenter
+class SiteTablePresenter
   attr_reader :query_results, :totals
 
   def initialize(query_results)

@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class SitePerformancePresenterTest < ActiveSupport::TestCase
+class SiteTablePresenterTest < ActiveSupport::TestCase
   setup do
     results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "medium", {}).query
-    @data = SitePerformancePresenter.new(results).data
+    @data = SiteTablePresenter.new(results).data
   end
 
   test "calulates additional stats" do

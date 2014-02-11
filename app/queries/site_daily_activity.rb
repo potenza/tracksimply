@@ -4,7 +4,8 @@ class SiteDailyActivity
   def initialize(site, time_zone, start_date, end_date, filters)
     @site = site
     @time_zone = time_zone
-    parse_dates(start_date, end_date)
+    @start_date = Date.parse(start_date)
+    @end_date = Date.parse(end_date)
     @filters = filters || {}
   end
 
@@ -17,11 +18,6 @@ class SiteDailyActivity
 
   private
 
-  def parse_dates(start_date, end_date)
-    @start_date = Date.parse(start_date)
-    @end_date = Date.parse(end_date)
-  end
-
   def visits
     collect_results(visit_relation)
   end
@@ -31,14 +27,16 @@ class SiteDailyActivity
   end
 
   def collect_results(relation)
-    relation.collect { |res| [res.date.strftime("%Q").to_i, res.count] }
+    relation.collect do |res|
+      [res.date, res.count]
+    end
   end
 
   def visit_relation
     relation = Time.use_zone(time_zone) do
       Visit
-        .select("date(visits.created_at) as date, count(*) as count")
-        .group("date(visits.created_at)")
+        .select("date(visits.created_at AT TIME ZONE 'UTC' AT TIME ZONE '#{Time.zone.tzinfo.identifier}') AS date, count(*) AS count")
+        .group("date")
         .joins(:tracking_link)
         .where("tracking_links.site_id" => site.id)
         .where("visits.created_at" => start_date.beginning_of_day..end_date.end_of_day)
@@ -49,12 +47,12 @@ class SiteDailyActivity
   def conversion_relation
     relation = Time.use_zone(time_zone) do
       Conversion
-        .select("date(conversions.created_at) as date, count(*) as count")
-        .group("date(conversions.created_at)")
+        .select("date(visits.created_at AT TIME ZONE 'UTC' AT TIME ZONE '#{Time.zone.tzinfo.identifier}') AS date, count(*) AS count")
+        .group("date")
         .joins(:visit)
         .joins(:tracking_link)
         .where("tracking_links.site_id" => site.id)
-        .where("conversions.created_at" => start_date.beginning_of_day..end_date.end_of_day)
+        .where("visits.created_at" => start_date.beginning_of_day..end_date.end_of_day)
     end
     apply_filters!(relation).order("date")
   end
