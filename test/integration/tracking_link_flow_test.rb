@@ -19,17 +19,17 @@ class TrackingLinkFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "edit tracking link" do
-    click_on tracking_links(:one).token
+    click_on tracking_links(:paid_search).token
     click_on "Edit"
     fill_in :tracking_link_campaign, with: "My Awesome Campaign"
     click_on "Update Tracking link"
-    assert_page_has_content page, "Tracking link #{tracking_links(:one).token} has been updated"
+    assert_page_has_content page, "Tracking link #{tracking_links(:paid_search).token} has been updated"
     assert_page_has_content page, "My Awesome Campaign"
   end
 
   test "delete tracking link" do
-    click_on tracking_links(:one).token
+    click_on tracking_links(:paid_search).token
     click_on "Delete"
-    assert_page_has_content page, "Tracking link #{tracking_links(:one).token} has been deleted"
+    assert_page_has_content page, "Tracking link #{tracking_links(:paid_search).token} has been deleted"
   end
 end

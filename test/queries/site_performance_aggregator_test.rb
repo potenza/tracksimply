@@ -1,81 +1,101 @@
 require 'test_helper'
 
 class SitePerformanceAggregatorTest < ActiveSupport::TestCase
-  test "returns performance stats for a site aggregated by tracking_link fields" do
-    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "medium", {}).query
-    stats = results.find { |row| row[:name] == "Paid Search" }
-
-    assert_equal "medium", stats[:type]
-    assert_equal 2, stats[:visits]
-    assert_equal 1, stats[:conversions]
-    assert_equal 1.00, stats[:cost]
-    assert_equal 9.99, stats[:revenue]
+  setup do
+    @today = Time.zone.today.to_s(:db)
   end
 
-  test "supports aggregation by visit fields" do
-    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "keyword", {}).query
-    stats = results.find { |row| row[:name] == "my search term" }
+  test "site stats aggregated by a tracking_link field" do
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "medium", {}).query
 
-    assert_equal "keyword", stats[:type]
-    assert_equal 1, stats[:visits]
-    assert_equal 1, stats[:conversions]
-    assert_equal 0.50, stats[:cost]
-    assert_equal 9.99, stats[:revenue]
+    expected = {
+      "Blogs"=>{:type=>"medium",:visits=>1, :conversions=>0, :revenue=>0.0, :cost=>0.0},
+      "Display Ads (Banner Ads)"=>{:type=>"medium",:visits=>0, :conversions=>0, :revenue=>0.0, :cost=>25.00},
+      "Paid Search"=>{:type=>"medium",:visits=>2, :conversions=>1, :revenue=>9.99, :cost=>1.00},
+      "Social Media"=>{:type=>"medium",:visits=>0, :conversions=>0, :revenue=>0.0, :cost=>50.0}
+    }
+
+    assert_equal expected, results
   end
 
-  test "includes non-visit-related costs for aggregations on visit fields" do
-    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "keyword", {}).query
-    stats = results.find { |row| row[:name] == "[other costs]" }
+  test "site stats aggregated by a visit field" do
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "keyword", {}).query
 
-    assert_equal "keyword", stats[:type]
-    assert_equal 0, stats[:visits]
-    assert_equal 0, stats[:conversions]
-    assert_equal 75.00, stats[:cost]
-    assert_equal 0.00, stats[:revenue]
+    expected = {
+      "[empty]"=>{:type=>"keyword",:visits=>1, :conversions=>0, :revenue=>0.0, :cost=>0.0},
+      "[other costs]"=>{:type=>"keyword",:visits=>0, :conversions=>0, :revenue=>0.0, :cost=>75.0},
+      "my search term"=>{:type=>"keyword",:visits=>1, :conversions=>1, :revenue=>9.99, :cost=>0.5},
+      "some other search term"=>{:type=>"keyword",:visits=>1, :conversions=>0, :revenue=>0.0, :cost=>0.5}
+    }
+
+    assert_equal expected, results
   end
 
-  test "includes non-visit-related stats for aggregations on visit fields (with no filters)" do
-    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "keyword", {}).query
-    stats = results.find { |row| row[:name] == "[empty]" }
-
-    assert_equal "keyword", stats[:type]
-    assert_equal 1, stats[:visits]
-    assert_equal 0, stats[:conversions]
-    assert_equal 0.50, stats[:cost]
-    assert_equal 0.00, stats[:revenue]
-  end
-
-  test "allows stats to be aggregated and refined by filters (visit-related)" do
-    filters = { "keyword" => "my search term" }
-    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "keyword", filters).query
-
-    assert_nil results.find { |row| row[:name] == "[empty]" }
-
-    stats = results.find { |row| row[:name] == "my search term" }
-    assert_equal "keyword", stats[:type]
-    assert_equal 1, stats[:visits]
-    assert_equal 1, stats[:conversions]
-    assert_equal 0.50, stats[:cost]
-    assert_equal 9.99, stats[:revenue]
-
-    stats = results.find { |row| row[:name] == "[other costs]" }
-    assert_equal "keyword", stats[:type]
-    assert_equal 0, stats[:visits]
-    assert_equal 0, stats[:conversions]
-    assert_equal 75, stats[:cost]
-    assert_equal 0.00, stats[:revenue]
-  end
-
-  test "allows stats to be aggregate and refined by filters (non-visit related)" do
+  test "site stats aggregated by a tracking_link field and refined by a tracking link filter" do
     filters = { "medium" => "Paid Search" }
-    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, Time.zone.today.to_s(:db), Time.zone.today.to_s(:db), "medium", filters).query
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "medium", filters).query
 
-    stats = results.first
-    assert_equal "medium", stats[:type]
-    assert_equal "Paid Search", stats[:name]
-    assert_equal 2, stats[:visits]
-    assert_equal 1, stats[:conversions]
-    assert_equal 1.00, stats[:cost]
-    assert_equal 9.99, stats[:revenue]
+    expected = {
+      "Paid Search"=>{:type=>"medium",:visits=>2, :conversions=>1, :revenue=>9.99, :cost=>1.00}
+    }
+
+    assert_equal expected, results
+  end
+
+  test "site stats aggregated by a visit field and refined by a tracking link filter" do
+    filters = { "medium" => "Paid Search" }
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "keyword", filters).query
+
+    expected = {
+      "[other costs]"=>{:type=>"keyword", :visits=>0, :conversions=>0, :revenue=>0.0, :cost=>0.0},
+      "my search term"=>{:type=>"keyword", :visits=>1, :conversions=>1, :revenue=>9.99, :cost=>0.5},
+      "some other search term"=>{:type=>"keyword", :visits=>1, :conversions=>0, :revenue=>0.0, :cost=>0.5}
+    }
+
+    assert_equal expected, results
+  end
+
+  test "site stats aggregated by a tracking_link field and refined by a visit filter" do
+    filters = { "keyword" => "my search term" }
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "medium", filters).query
+
+    expected = {
+      "Paid Search"=>{:type=>"medium",:visits=>1, :conversions=>1, :revenue=>9.99, :cost=>0.50}
+    }
+
+    assert_equal expected, results
+  end
+
+  test "site stats aggregated by a visit field and refined by a visit filter" do
+    filters = { "keyword" => "my search term" }
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "keyword", filters).query
+
+    expected = {
+      "my search term"=>{:type=>"keyword",:visits=>1, :conversions=>1, :revenue=>9.99, :cost=>0.5}
+    }
+
+    assert_equal expected, results
+  end
+
+  test "site stats aggregated by a tracking link field and refined by a tracking link filter (with expenses, but no visits)" do
+    filters = { "medium" => "Social Media" }
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "medium", filters).query
+
+    expected = {
+      "Social Media"=>{:type=>"medium",:visits=>0, :conversions=>0, :revenue=>0.0, :cost=>50.00}
+    }
+
+    assert_equal expected, results
+  end
+
+  test "site stats aggregated by a visit field and refined by a tracking link filter (with expenses, but no visits)" do
+    filters = { "medium" => "Social Media" }
+    results = SitePerformanceAggregator.new(sites(:one), users(:one).time_zone, @today, @today, "keyword", filters).query
+
+    expected = {
+      "[other costs]"=>{:type=>"keyword",:visits=>0, :conversions=>0, :revenue=>0.0, :cost=>50.00}
+    }
+
+    assert_equal expected, results
   end
 end

@@ -20,7 +20,8 @@ class SiteTablePresenter
   private
 
   def process_results
-    query_results.collect do |stats|
+    query_results.collect do |key, stats|
+      stats[:name] = key
       add_to_totals(stats)
       calculate_profit!(stats)
       calculate_visit_stats!(stats)

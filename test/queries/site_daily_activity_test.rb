@@ -16,7 +16,7 @@ class SiteDailyActivityTest < ActiveSupport::TestCase
 
     visits = activity[:visits].first
     assert_equal @today, visits[0]
-    assert_equal 2, visits[1]
+    assert_equal 3, visits[1]
 
     conversions = activity[:conversions].first
     assert_equal @today, conversions[0]

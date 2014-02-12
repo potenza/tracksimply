@@ -1,17 +1,26 @@
 one:
   visitor: one
-  tracking_link: one
+  tracking_link: paid_search
   keyword: my search term
-  sid: my-sid
+  sid:
   data:
     referrer: http://www.google.com
     ip_address: 127.0.0.1
 
 two:
-  visitor: one
-  tracking_link: one
-  keyword:
+  visitor: two
+  tracking_link: paid_search
+  keyword: some other search term
   sid:
+  data:
+    referrer: http://www.google.com
+    ip_address: 127.0.0.1
+
+three:
+  visitor: three
+  tracking_link: blogs
+  keyword:
+  sid: my sid
   data:
     referrer: http://www.google.com
     ip_address: 127.0.0.1

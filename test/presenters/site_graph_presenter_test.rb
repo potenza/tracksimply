@@ -13,7 +13,7 @@ class SiteGraphPresenterTest < ActiveSupport::TestCase
     expected = {
       visits: [
         [@yesterday.strftime("%Q").to_i, 0],
-        [@today.strftime("%Q").to_i, 2],
+        [@today.strftime("%Q").to_i, 3],
         [@tomorrow.strftime("%Q").to_i, 0]
       ],
       conversions: [

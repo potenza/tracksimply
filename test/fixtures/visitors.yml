@@ -1,2 +1,8 @@
 one:
   name: John Smith
+
+two:
+  name: nil
+
+three:
+  name: nil

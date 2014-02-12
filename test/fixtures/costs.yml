@@ -1,23 +1,23 @@
 ppc:
-  tracking_link: one
+  tracking_link: paid_search
   type: PayPerClickCost
   amount: 0.50
 
 monthly:
-  tracking_link: monthly
+  tracking_link: display_ads
   type: MonthlyCost
   amount: 25.00
   start_date: <%= Time.zone.today.to_s(:db) %>
 
 onetime:
-  tracking_link: onetime
+  tracking_link: social_media
   type: OneTimeCost
   amount: 50.00
   start_date: <%= Time.zone.today.to_s(:db) %>
 
-# for CostFinder tests (should not be found)
+# for CostFinder tests (should not be found due to start and end dates)
 oldmonthly:
-  tracking_link: oldmonthly
+  tracking_link: blogs
   type: MonthlyCost
   amount: 5.00
   start_date: <%= (Time.zone.today - 2.month).to_s(:db) %>

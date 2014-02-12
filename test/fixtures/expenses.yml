@@ -1,21 +1,21 @@
 one:
-  tracking_link: one
+  tracking_link: paid_search
   visit: one
   paid_at: <%= Time.zone.now.beginning_of_day %>
   amount: 0.50
 
 two:
-  tracking_link: one
+  tracking_link: paid_search
   visit: two
   paid_at: <%= Time.zone.now.beginning_of_day %>
   amount: 0.50
 
 monthly:
-  tracking_link: monthly
+  tracking_link: display_ads
   paid_at: <%= Time.zone.now.beginning_of_day %>
   amount: 25.00
 
 onetime:
-  tracking_link: onetime
+  tracking_link: social_media
   paid_at: <%= Time.zone.now.beginning_of_day %>
   amount: 50.00

@@ -27,14 +27,14 @@ class Api::SitesControllerTest < ActionController::TestCase
     stats = response.last
 
     assert_equal "Totals", stats["name"]
-    assert_equal 2, stats["visits"]
+    assert_equal 3, stats["visits"]
     assert_equal 1, stats["conversions"]
     assert_equal 76, stats["cost"].to_f
     assert_equal 9.99, stats["revenue"].to_f
     assert_equal -66.01, stats["profit"].to_f
-    assert_equal 4.995, stats["revenue_per_visit"].to_f
-    assert_equal 38, stats["cost_per_visit"].to_f
-    assert_equal 50, stats["conversion_rate"]
+    assert_equal 3.33, stats["revenue_per_visit"].to_f
+    assert_equal 25.333333333333332, stats["cost_per_visit"].to_f
+    assert_equal 33.33, stats["conversion_rate"]
     assert_equal 9.99, stats["revenue_per_conversion"].to_f
     assert_equal 76, stats["cost_per_conversion"].to_f
   end

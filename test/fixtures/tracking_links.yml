@@ -1,4 +1,4 @@
-one:
+paid_search:
   site: one
   medium: Paid Search
   landing_page_url: http://www.my-website.com
@@ -7,7 +7,7 @@ one:
   ad_content: My Ad Content
   token: 053c85
 
-monthly:
+display_ads:
   site: one
   medium: Display Ads (Banner Ads)
   landing_page_url: http://www.my-website.com
@@ -16,7 +16,7 @@ monthly:
   ad_content: My Ad Content
   token: 2b9098
 
-onetime:
+social_media:
   site: one
   medium: Social Media
   landing_page_url: http://www.my-website.com
@@ -26,7 +26,7 @@ onetime:
   token: c3927e
 
 # for CostFinder tests (should not be found)
-oldmonthly:
+blogs:
   site: one
   medium: Blogs
   landing_page_url: http://www.my-website.com

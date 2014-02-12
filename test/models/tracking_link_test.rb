@@ -48,11 +48,11 @@ class TrackingLinkTest < ActiveSupport::TestCase
   end
 
   test "#to_s returns token" do
-    assert_equal "053c85", tracking_links(:one).to_s
+    assert_equal "053c85", tracking_links(:paid_search).to_s
   end
 
   test "#process_new_visit generates an appropriate expense record" do
-    tracking_link = tracking_links(:one)
+    tracking_link = tracking_links(:paid_search)
     visit = visits(:one)
 
     tracking_link.expenses.destroy_all
@@ -63,7 +63,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
   end
 
   test "#overwrite_expenses_for_date deletes existing expense records and adds a new one" do
-    tracking_link = tracking_links(:one)
+    tracking_link = tracking_links(:paid_search)
 
     assert_equal 1.00, tracking_link.expenses.sum(:amount)
 
@@ -73,7 +73,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
   end
 
   test "#generate_expense_records doesn't generate anything for ppc tracking links" do
-    tracking_link = tracking_links(:one)
+    tracking_link = tracking_links(:paid_search)
 
     tracking_link.expenses.destroy_all
     tracking_link.generate_expense_records
@@ -81,7 +81,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
   end
 
   test "#generate_expense_records generates monthly expense records" do
-    tracking_link = tracking_links(:monthly)
+    tracking_link = tracking_links(:display_ads)
 
     tracking_link.expenses.destroy_all
     tracking_link.generate_expense_records
@@ -91,7 +91,7 @@ class TrackingLinkTest < ActiveSupport::TestCase
   end
 
   test "#generate_expense_records generates one-time expense records" do
-    tracking_link = tracking_links(:onetime)
+    tracking_link = tracking_links(:social_media)
 
     tracking_link.expenses.destroy_all
     tracking_link.generate_expense_records
