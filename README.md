@@ -2,13 +2,19 @@
 
 # TrackSimply
 
-Setting up your development environment:
+Simple, link-based conversion tracking--it's like a URL shortener with awesome analytics.
+Use TrackSimply to track traffic and conversions for any link anywhere (mobile, social, email, web, etc.)
 
 ## Requirements
 
 - Git
-- Ruby 2.0+
-- Postgresql
+- Ruby 2.1+
+- Rails 4.1+
+- PostgreSQL
+
+## Getting Started
+
+Setting up your development environment:
 
 ```
 git clone https://github.com/tracksimply/tracksimply
