@@ -5,6 +5,10 @@
 Simple, link-based conversion tracking--it's like a URL shortener with awesome analytics.
 Use TrackSimply to track traffic and conversions for any link anywhere (mobile, social, email, web, etc.)
 
+## Demo
+
+Check out http://demo.tracksimply.org
+
 ## Requirements
 
 - Git
